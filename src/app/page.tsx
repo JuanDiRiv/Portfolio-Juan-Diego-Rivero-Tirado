@@ -1,102 +1,435 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import type { JSX } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+import { useLanguage } from "@/context/LanguageContext";
+import { projectDetails } from "@/data/projects";
+
+type SocialLinkId = "linkedin" | "github";
+
+type SocialLink = {
+  id: SocialLinkId;
+  href: string;
+  icon: JSX.Element;
+};
+
+const socialLinks: SocialLink[] = [
+  {
+    id: "linkedin",
+    href: "https://www.linkedin.com/in/juan-diego-rivero-tirado-95814423b/",
+    icon: (
+      <svg
+        aria-hidden="true"
+        height="20"
+        width="20"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="transition-colors group-hover:text-[var(--accent)]"
+      >
+        <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h3.95v12H3Zm6.74 0H14v1.71h.05c.58-1.1 2-2.27 4.12-2.27 4.4 0 5.21 2.9 5.21 6.67V21H19.4v-5.24c0-1.25-.02-2.85-1.74-2.85-1.74 0-2 1.36-2 2.76V21h-3.95Z" />
+      </svg>
+    ),
+  },
+  {
+    id: "github",
+    href: "https://github.com/JuanDiRiv",
+    icon: (
+      <svg
+        aria-hidden="true"
+        height="20"
+        width="20"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="transition-colors group-hover:text-[var(--accent)]"
+      >
+        <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.21.68-.47v-1.64c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.61.07-.61 1 .07 1.53 1.04 1.53 1.04.89 1.52 2.34 1.08 2.9.83a2.1 2.1 0 0 1 .62-1.32c-2.22-.25-4.56-1.12-4.56-5a3.9 3.9 0 0 1 1.04-2.7 3.66 3.66 0 0 1 .1-2.66s.84-.27 2.75 1.02a9.43 9.43 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.54 1.36.2 2.38.1 2.66a3.91 3.91 0 0 1 1.04 2.7c0 3.9-2.34 4.73-4.57 4.98.36.31.68.92.68 1.86V21c0 .27.18.58.69.47A10 10 0 0 0 12 2Z" />
+      </svg>
+    ),
+  },
+];
+
+const skills = [
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Tailwind CSS",
+  "Node.js",
+  "Express",
+  "GraphQL",
+  "REST APIs",
+  "PostgreSQL",
+  "MongoDB",
+  "Framer Motion",
+  "Three.js",
+  "Jest",
+  "Cypress",
+  "Storybook",
+  "Git",
+  "CI/CD",
+  "Vercel",
+  "Figma Collaboration",
+];
+
+const copy = {
+  en: {
+    name: "Juan Diego Rivero Tirado",
+    nav: {
+      about: "About",
+      skills: "Skills",
+      projects: "Projects",
+    },
+    languageToggleLabel: "Switch to Spanish",
+    languageToggleShort: "ES",
+    themeToggle: "Toggle theme",
+    heroBadge: "Interactive front-end developer",
+    heroTitle: "I design immersive digital canvases that feel alive and purposeful.",
+    heroDescription:
+      "I am Juan Diego Rivero Tirado, a front-end developer building responsive and emotionally engaging experiences. I lean on motion, storytelling, and accessibility to craft interfaces that invite exploration on any device.",
+    primaryCta: "Explore projects",
+    secondaryCta: "Start a conversation",
+    currentFocusLabel: "Currently crafting",
+    currentFocusValue: "Immersive dashboards & design systems",
+    recentHighlightLabel: "Recent highlight",
+    recentHighlightBody:
+      "Led the interface vision for a spatial analytics suite adopted across 7 global product teams.",
+    skillsHeading: "Skills & toolset",
+    skillsDescription:
+      "A blend of engineering discipline and creative tooling that keeps experimentation grounded and production-ready.",
+    projectsHeading: "Selected projects",
+    projectsDescription:
+      "Each build has its own stage. Dive into the dedicated page for context, prototypes, and the craft behind the scenes.",
+    projectCta: "View case study",
+    footerRights: "All rights reserved.",
+    footerBuilt: "Built with Tailwind CSS and deployed with Vercel.",
+    social: {
+      linkedin: "LinkedIn profile",
+      github: "GitHub profile",
+    } as Record<SocialLinkId, string>,
+  },
+  es: {
+    name: "Juan Diego Rivero Tirado",
+    nav: {
+      about: "Sobre mi",
+      skills: "Habilidades",
+      projects: "Proyectos",
+    },
+    languageToggleLabel: "Cambiar a ingles",
+    languageToggleShort: "EN",
+    themeToggle: "Cambiar tema",
+    heroBadge: "Desarrollador front-end interactivo",
+    heroTitle: "Diseno lienzos digitales inmersivos que se sienten vivos y con proposito.",
+    heroDescription:
+      "Soy Juan Diego Rivero Tirado, un desarrollador front-end que crea experiencias receptivas y emotivas. Me apoyo en el movimiento, la narrativa y la accesibilidad para construir interfaces que invitan a explorar en cualquier dispositivo.",
+    primaryCta: "Explorar proyectos",
+    secondaryCta: "Iniciar una conversacion",
+    currentFocusLabel: "Actualmente creando",
+    currentFocusValue: "Paneles inmersivos y sistemas de diseno",
+    recentHighlightLabel: "Destacado reciente",
+    recentHighlightBody:
+      "Dirigi la vision de interfaz para una suite de analitica espacial adoptada por 7 equipos globales de producto.",
+    skillsHeading: "Habilidades y stack",
+    skillsDescription:
+      "Una mezcla de disciplina de ingenieria y herramientas creativas que mantiene la experimentacion orientada a produccion.",
+    projectsHeading: "Proyectos destacados",
+    projectsDescription:
+      "Cada proyecto tiene su propio escenario. Entra a la pagina dedicada para conocer el contexto, los prototipos y el proceso.",
+    projectCta: "Ver caso de estudio",
+    footerRights: "Todos los derechos reservados.",
+    footerBuilt: "Construido con Tailwind CSS y desplegado con Vercel.",
+    social: {
+      linkedin: "Perfil de LinkedIn",
+      github: "Perfil de GitHub",
+    } as Record<SocialLinkId, string>,
+  },
+} as const;
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { language, toggleLanguage } = useLanguage();
+  const t = copy[language];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const storedTheme = window.localStorage.getItem("portfolio-theme");
+    if (storedTheme === "light" || storedTheme === "dark") {
+      setTheme(storedTheme);
+    } else {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      setTheme(prefersDark ? "dark" : "light");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    const root = document.documentElement;
+    root.classList.remove(theme === "dark" ? "light" : "dark");
+    root.classList.add(theme);
+    window.localStorage.setItem("portfolio-theme", theme);
+  }, [theme, isMounted]);
+
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  return (
+    <div className="relative isolate min-h-screen overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-40 -left-32 h-72 w-72 rounded-full bg-cyan-400/30 blur-3xl" />
+        <div className="absolute top-64 -right-40 h-80 w-80 rounded-full bg-purple-500/20 blur-3xl" />
+        <div className="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-amber-400/10 blur-3xl" />
+      </div>
+
+      <header className="sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 lg:px-8">
+          <Link href="#about" className="font-mono text-sm uppercase tracking-[0.3em]">
+            {t.name}
+          </Link>
+          <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
+            <a className="transition-colors hover:text-[var(--accent)]" href="#about">
+              {t.nav.about}
+            </a>
+            <a className="transition-colors hover:text-[var(--accent)]" href="#skills">
+              {t.nav.skills}
+            </a>
+            <a className="transition-colors hover:text-[var(--accent)]" href="#projects">
+              {t.nav.projects}
+            </a>
+          </nav>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label={t.languageToggleLabel}
+              onClick={toggleLanguage}
+              className="inline-flex h-10 items-center justify-center rounded-full border border-white/10 bg-[color:var(--surface)] px-4 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--muted-foreground)] transition-colors duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            >
+              {t.languageToggleShort}
+            </button>
+            <button
+              type="button"
+              aria-label={t.themeToggle}
+              onClick={toggleTheme}
+              className="group relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[color:var(--surface)] text-[var(--foreground)] transition-all duration-300 hover:border-[var(--accent)]"
+            >
+              {isMounted && theme === "dark" ? (
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5 transition-transform duration-500 group-hover:rotate-12"
+                  fill="currentColor"
+                >
+                  <path d="M21.64 13a1 1 0 0 0-1.05-.14 8 8 0 0 1-10.45-10.5 1 1 0 0 0-1.12-1.32 10 10 0 1 0 12.54 12.54A1 1 0 0 0 21.64 13Z" />
+                </svg>
+              ) : (
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5 transition-transform duration-500 group-hover:-rotate-12"
+                  fill="currentColor"
+                >
+                  <path d="M12 4.5a1 1 0 0 1 1 1V7a1 1 0 0 1-2 0V5.5a1 1 0 0 1 1-1Zm0 10.5a3 3 0 1 0-3-3 3 3 0 0 0 3 3Zm7-3a1 1 0 0 1 1 1V14a1 1 0 0 1-2 0v-1.5a1 1 0 0 1 1-1Zm-14 0a1 1 0 0 1 1 1V14a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1Zm12.07 6.57a1 1 0 0 1 1.41 0l1.06 1.06a1 1 0 1 1-1.41 1.41L17.07 19.5a1 1 0 0 1 0-1.41Zm-12.14 0a1 1 0 0 1 0 1.41L4.87 20.9a1 1 0 0 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0ZM12 17a1 1 0 0 1 1 1v1.5a1 1 0 0 1-2 0V18a1 1 0 0 1 1-1Zm9-12.5-1.06 1.06a1 1 0 1 1-1.41-1.41L19.5 3.1a1 1 0 0 1 1.41 1.41Zm-15 0a1 1 0 0 1-1.41 0L3.1 4.87A1 1 0 0 1 4.51 3.46L5.57 4.5a1 1 0 0 1 0 1.41Z" />
+                </svg>
+              )}
+            </button>
+            <div className="md:hidden">
+              <nav className="flex items-center gap-3 text-xs uppercase tracking-[0.2em]">
+                <a className="transition-colors hover:text-[var(--accent)]" href="#about">
+                  {t.nav.about}
+                </a>
+                <a className="transition-colors hover:text-[var(--accent)]" href="#skills">
+                  {t.nav.skills}
+                </a>
+                <a className="transition-colors hover:text-[var(--accent)]" href="#projects">
+                  {t.nav.projects}
+                </a>
+              </nav>
+            </div>
+          </div>
         </div>
+      </header>
+
+      <main className="mx-auto flex max-w-6xl flex-col gap-28 px-6 pb-24 pt-24 lg:px-8">
+        <section
+          id="about"
+          className="relative grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)] lg:items-center"
+        >
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[color:var(--surface)] px-4 py-2 text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
+              {t.heroBadge}
+            </div>
+            <div>
+              <h1 className="text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                {t.heroTitle}
+              </h1>
+              <p className="mt-6 max-w-2xl text-base text-[var(--muted-foreground)] sm:text-lg">
+                {t.heroDescription}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-3 rounded-full border border-transparent bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-[var(--accent-foreground)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(56,189,248,0.35)]"
+              >
+                {t.primaryCta}
+                <span className="text-xs font-bold uppercase tracking-[0.3em]">&rarr;</span>
+              </a>
+              <a
+                href="mailto:juandirivero@gmail.com"
+                className="inline-flex items-center gap-3 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold transition-all duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >
+                {t.secondaryCta}
+              </a>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="absolute -inset-6 -z-10 rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent blur-xl" />
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--surface)] p-8 shadow-2xl backdrop-blur">
+              <div className="flex flex-col gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">
+                    {t.currentFocusLabel}
+                  </p>
+                  <p className="mt-2 text-lg font-semibold">{t.currentFocusValue}</p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-[color:var(--card)] p-5 shadow-inner">
+                  <p className="text-sm font-semibold text-[var(--muted-foreground)]">
+                    {t.recentHighlightLabel}
+                  </p>
+                  <p className="mt-3 text-base font-medium">
+                    {t.recentHighlightBody}
+                  </p>
+                </div>
+                <div className="flex items-center gap-6">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.id}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[color:var(--card)] transition-all duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    >
+                      <span className="sr-only">{t.social[social.id]}</span>
+                      {social.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="skills" className="space-y-10">
+          <div className="space-y-4">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              {t.skillsHeading}
+            </h2>
+            <p className="max-w-2xl text-base text-[var(--muted-foreground)]">
+              {t.skillsDescription}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {skills.map((skill) => (
+              <span
+                key={skill}
+                className="rounded-full border border-white/10 bg-[color:var(--muted)] px-5 py-2 text-sm font-medium tracking-tight text-[var(--muted-foreground)] backdrop-blur transition-colors duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section id="projects" className="space-y-10">
+          <div className="space-y-4">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              {t.projectsHeading}
+            </h2>
+            <p className="max-w-2xl text-base text-[var(--muted-foreground)]">
+              {t.projectsDescription}
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-2">
+            {projectDetails.map((project) => (
+              <Link
+                key={project.slug}
+                href={`/projects/${project.slug}`}
+                className="group relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--surface)] p-7 transition-all duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_30px_60px_rgba(15,23,42,0.45)]"
+              >
+                <div
+                  className={`pointer-events-none absolute -top-24 left-1/2 h-52 w-[120%] -translate-x-1/2 transform bg-gradient-to-br ${project.accent} blur-3xl transition-opacity duration-500 group-hover:opacity-100`}
+                />
+                <div className="relative z-10 flex flex-col gap-6">
+                  <div className="overflow-hidden rounded-2xl border border-white/10 bg-[color:var(--card)] p-6">
+                    <p className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">
+                      {project.previewTitle[language]}
+                    </p>
+                    <p className="mt-2 text-base font-semibold">
+                      {project.previewSubtitle[language]}
+                    </p>
+                    <div className="mt-6 h-20 w-full rounded-xl bg-gradient-to-r from-white/5 via-white/0 to-white/10" />
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-2xl font-semibold tracking-tight">
+                      {project.title[language]}
+                    </h3>
+                    <p className="text-sm text-[var(--muted-foreground)]">
+                      {project.description[language]}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.map((technology) => (
+                      <span
+                        key={technology}
+                        className="rounded-full border border-white/10 bg-[color:var(--card)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted-foreground)] transition-all duration-300 group-hover:border-[var(--accent)] group-hover:text-[var(--accent)]"
+                      >
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--muted-foreground)]">
+                    {t.projectCta}
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                      &rarr;
+                    </span>
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="mx-auto w-full max-w-6xl px-6 pb-16 lg:px-8">
+        <div className="flex flex-col gap-6 rounded-3xl border border-white/10 bg-[color:var(--surface)] p-8 backdrop-blur-lg sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            {socialLinks.map((social) => (
+              <a
+                key={social.id}
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[color:var(--card)] transition-all duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >
+                <span className="sr-only">{t.social[social.id]}</span>
+                {social.icon}
+              </a>
+            ))}
+          </div>
+          <div className="space-y-1 text-sm text-[var(--muted-foreground)]">
+            <p>
+              &copy; {currentYear} {t.name}. {t.footerRights}
+            </p>
+            <p>{t.footerBuilt}</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
