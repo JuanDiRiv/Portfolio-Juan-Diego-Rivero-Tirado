@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import type { JSX } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { projectDetails } from "@/data/projects";
@@ -190,35 +192,8 @@ export default function Home() {
   const { language, toggleLanguage } = useLanguage();
   const t = copy[language];
 
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-    const storedTheme = window.localStorage.getItem("portfolio-theme");
-    if (storedTheme === "light" || storedTheme === "dark") {
-      setTheme(storedTheme);
-    } else {
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      setTheme(prefersDark ? "dark" : "light");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isMounted) return;
-    const root = document.documentElement;
-    root.classList.remove(theme === "dark" ? "light" : "dark");
-    root.classList.add(theme);
-    window.localStorage.setItem("portfolio-theme", theme);
-  }, [theme, isMounted]);
-
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
 
   return (
     <div className="relative isolate min-h-screen overflow-hidden">
@@ -251,32 +226,10 @@ export default function Home() {
             >
               {t.languageToggleShort}
             </button>
-            <button
-              type="button"
-              aria-label={t.themeToggle}
-              onClick={toggleTheme}
-              className="group relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[color:var(--surface)] text-[var(--foreground)] transition-all duration-300 hover:border-[var(--accent)]"
-            >
-              {isMounted && theme === "dark" ? (
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  className="h-5 w-5 transition-transform duration-500 group-hover:rotate-12"
-                  fill="currentColor"
-                >
-                  <path d="M21.64 13a1 1 0 0 0-1.05-.14 8 8 0 0 1-10.45-10.5 1 1 0 0 0-1.12-1.32 10 10 0 1 0 12.54 12.54A1 1 0 0 0 21.64 13Z" />
-                </svg>
-              ) : (
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  className="h-5 w-5 transition-transform duration-500 group-hover:-rotate-12"
-                  fill="currentColor"
-                >
-                  <path d="M12 4.5a1 1 0 0 1 1 1V7a1 1 0 0 1-2 0V5.5a1 1 0 0 1 1-1Zm0 10.5a3 3 0 1 0-3-3 3 3 0 0 0 3 3Zm7-3a1 1 0 0 1 1 1V14a1 1 0 0 1-2 0v-1.5a1 1 0 0 1 1-1Zm-14 0a1 1 0 0 1 1 1V14a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1Zm12.07 6.57a1 1 0 0 1 1.41 0l1.06 1.06a1 1 0 1 1-1.41 1.41L17.07 19.5a1 1 0 0 1 0-1.41Zm-12.14 0a1 1 0 0 1 0 1.41L4.87 20.9a1 1 0 0 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0ZM12 17a1 1 0 0 1 1 1v1.5a1 1 0 0 1-2 0V18a1 1 0 0 1 1-1Zm9-12.5-1.06 1.06a1 1 0 1 1-1.41-1.41L19.5 3.1a1 1 0 0 1 1.41 1.41Zm-15 0a1 1 0 0 1-1.41 0L3.1 4.87A1 1 0 0 1 4.51 3.46L5.57 4.5a1 1 0 0 1 0 1.41Z" />
-                </svg>
-              )}
-            </button>
+            <ThemeToggle
+              ariaLabel={t.themeToggle}
+              className="relative overflow-hidden border border-white/10 bg-[color:var(--surface)] text-[var(--foreground)] transition-all duration-300 hover:border-[var(--accent)]"
+            />
             <div className="md:hidden">
               <nav className="flex items-center gap-3 text-xs uppercase tracking-[0.2em]">
                 <a className="transition-colors hover:text-[var(--accent)]" href="#about">
@@ -414,7 +367,15 @@ export default function Home() {
                     <p className="mt-2 text-base font-semibold">
                       {project.previewSubtitle[language]}
                     </p>
-                    <div className="mt-6 h-20 w-full rounded-xl bg-gradient-to-r from-white/5 via-white/0 to-white/10" />
+                    <div className="mt-6 relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/5 bg-[color:var(--surface)]">
+                      <Image
+                        src={project.previewImage}
+                        alt={project.previewAlt[language]}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    </div>
                   </div>
                   <div className="space-y-3">
                     <h3 className="text-2xl font-semibold tracking-tight">
@@ -424,15 +385,24 @@ export default function Home() {
                       {project.description[language]}
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((technology) => (
-                      <span
-                        key={technology}
-                        className="rounded-full border border-white/10 bg-[color:var(--card)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted-foreground)] transition-all duration-300 group-hover:border-[var(--accent)] group-hover:text-[var(--accent)]"
-                      >
-                        {technology}
-                      </span>
-                    ))}
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((technology) => (
+                        <span
+                          key={technology}
+                          className="rounded-full border border-white/10 bg-[color:var(--card)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted-foreground)] transition-all duration-300 group-hover:border-[var(--accent)] group-hover:text-[var(--accent)]"
+                        >
+                          {technology}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      href={project.ctaHref}
+                      className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-[color:var(--card)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--foreground)] transition-colors duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    >
+                      {project.ctaLabel[language]}
+                      <span aria-hidden className="text-sm">&rarr;</span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -468,3 +438,8 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
+
