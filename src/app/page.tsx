@@ -57,20 +57,63 @@ const skills = [
   "Tailwind CSS",
   "Node.js",
   "Express",
-  "GraphQL",
+  "JavaScript",
   "REST APIs",
-  "PostgreSQL",
+  "Bootstrap",
+  "Material-UI",
+  "Nest.js",
   "MongoDB",
-  "Framer Motion",
-  "Three.js",
-  "Jest",
-  "Cypress",
-  "Storybook",
+  "MySQL",
+  "Firebase",
+  "Google Cloud",
+  "Astro",
   "Git",
-  "CI/CD",
-  "Vercel",
-  "Figma Collaboration",
+  "GitHub",
+  "Figma",
+  "Agile Methodologies",
+  "Jest",
+  "HTML5",
+  "CSS3",
+  "Sass",
+  "Responsive Design",
+  "SEO Best Practices",
+  "Salesforce",
+  "Veeva",
+  "Kanban",
+  "Technical leadership",
+  "UI/UX Principles",
+  "Training & Mentorship",
+  "Process Optimization",
+
 ];
+
+type BrandMarkProps = {
+  label: string;
+};
+
+function BrandMark({ label }: BrandMarkProps) {
+  return (
+    <Link
+      href="#about"
+      aria-label={label}
+      className="group relative flex flex-col items-center text-center leading-none"
+    >
+      <span className="sr-only">{label}</span>
+      <span
+        aria-hidden
+        className="font-logo text-[1.95rem] font-light uppercase tracking-[0.52em] text-[var(--foreground)] transition-colors duration-300 group-hover:text-[var(--accent)] sm:text-[2.5rem] sm:tracking-[0.7em]"
+      >
+        JDRT
+      </span>
+      <span
+        aria-hidden
+        className="mt-3 text-[0.54rem] uppercase tracking-[0.6em] text-[var(--muted-foreground)] transition-colors duration-300 group-hover:text-[var(--accent)] sm:text-[0.62rem] sm:tracking-[0.72em]"
+      >
+        JUAN DIEGO RIVERO TIRADO
+      </span>
+    </Link>
+  );
+}
 
 const copy = {
   en: {
@@ -83,10 +126,10 @@ const copy = {
     languageToggleLabel: "Switch to Spanish",
     languageToggleShort: "ES",
     themeToggle: "Toggle theme",
-    heroBadge: "Interactive front-end developer",
-    heroTitle: "I design immersive digital canvases that feel alive and purposeful.",
+    heroBadge: "Front-end developer",
+    heroTitle: "I am Juan Diego Rivero Tirado,",
     heroDescription:
-      "I am Juan Diego Rivero Tirado, a front-end developer building responsive and emotionally engaging experiences. I lean on motion, storytelling, and accessibility to craft interfaces that invite exploration on any device.",
+      " A front-end developer passionate about crafting innovative and responsive experiences, eager to learn new things every day, showcasing who I am through my work and effort.",
     primaryCta: "Explore projects",
     secondaryCta: "Start a conversation",
     currentFocusLabel: "Currently crafting",
@@ -96,7 +139,7 @@ const copy = {
       "Led the interface vision for a spatial analytics suite adopted across 7 global product teams.",
     skillsHeading: "Skills & toolset",
     skillsDescription:
-      "A blend of engineering discipline and creative tooling that keeps experimentation grounded and production-ready.",
+      "Technical abilities and knowledge required to design, develop, manage, and maintain technology and digital systems",
     projectsHeading: "Selected projects",
     projectsDescription:
       "Each build has its own stage. Explore the highlights and craft directly from here.",
@@ -112,15 +155,15 @@ const copy = {
     nav: {
       about: "Sobre mi",
       skills: "Habilidades",
-      projects: "Proyectos",
+      projects: "Proyectos", 
     },
     languageToggleLabel: "Cambiar a ingles",
     languageToggleShort: "EN",
     themeToggle: "Cambiar tema",
-    heroBadge: "Desarrollador front-end interactivo",
-    heroTitle: "Diseno lienzos digitales inmersivos que se sienten vivos y con proposito.",
+    heroBadge: "Desarrollador front-end",
+    heroTitle: "Soy Juan Diego Rivero Tirado,  ",
     heroDescription:
-      "Soy Juan Diego Rivero Tirado, un desarrollador front-end que crea experiencias receptivas y emotivas. Me apoyo en el movimiento, la narrativa y la accesibilidad para construir interfaces que invitan a explorar en cualquier dispositivo.",
+      "Desarrollador Front-End apasionado, enfocado en crear experiencias innovadoras y responsivas, aprendiendo cada día y mostrando mi esencia mediante el trabajo y el esfuerzo.",
     primaryCta: "Explorar proyectos",
     secondaryCta: "Iniciar una conversacion",
     currentFocusLabel: "Actualmente creando",
@@ -130,7 +173,7 @@ const copy = {
       "Dirigi la vision de interfaz para una suite de analitica espacial adoptada por 7 equipos globales de producto.",
     skillsHeading: "Habilidades y stack",
     skillsDescription:
-      "Una mezcla de disciplina de ingenieria y herramientas creativas que mantiene la experimentacion orientada a produccion.",
+      "Habilidades técnicas y conocimientos necesarios para diseñar, desarrollar, gestionar y mantener la tecnología y los sistemas digitales.",
     projectsHeading: "Proyectos destacados",
     projectsDescription:
       "Cada proyecto tiene su propio escenario. Explora los aspectos destacados y el proceso directamente aqui.",
@@ -187,9 +230,7 @@ export default function Home() {
 
       <header className="sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 lg:px-8">
-          <Link href="#about" className="font-mono text-sm uppercase tracking-[0.3em]">
-            {t.name}
-          </Link>
+          <BrandMark label={t.name} />
           <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
             <a className="transition-colors hover:text-[var(--accent)]" href="#about">
               {t.nav.about}
@@ -280,7 +321,9 @@ export default function Home() {
                 <span className="text-xs font-bold uppercase tracking-[0.3em]">&rarr;</span>
               </a>
               <a
-                href="mailto:juandirivero@gmail.com"
+                href="https://api.whatsapp.com/send/?phone=573124344686"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center gap-3 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold transition-all duration-300 hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 {t.secondaryCta}
