@@ -99,8 +99,7 @@ const copy = {
       "A blend of engineering discipline and creative tooling that keeps experimentation grounded and production-ready.",
     projectsHeading: "Selected projects",
     projectsDescription:
-      "Each build has its own stage. Dive into the dedicated page for context, prototypes, and the craft behind the scenes.",
-    projectCta: "View case study",
+      "Each build has its own stage. Explore the highlights and craft directly from here.",
     footerRights: "All rights reserved.",
     footerBuilt: "Built with Tailwind CSS and deployed with Vercel.",
     social: {
@@ -134,8 +133,7 @@ const copy = {
       "Una mezcla de disciplina de ingenieria y herramientas creativas que mantiene la experimentacion orientada a produccion.",
     projectsHeading: "Proyectos destacados",
     projectsDescription:
-      "Cada proyecto tiene su propio escenario. Entra a la pagina dedicada para conocer el contexto, los prototipos y el proceso.",
-    projectCta: "Ver caso de estudio",
+      "Cada proyecto tiene su propio escenario. Explora los aspectos destacados y el proceso directamente aqui.",
     footerRights: "Todos los derechos reservados.",
     footerBuilt: "Construido con Tailwind CSS y desplegado con Vercel.",
     social: {
@@ -358,9 +356,8 @@ export default function Home() {
           </div>
           <div className="grid gap-8 md:grid-cols-2">
             {projectDetails.map((project) => (
-              <Link
+              <div
                 key={project.slug}
-                href={`/projects/${project.slug}`}
                 className="group relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--surface)] p-7 transition-all duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_30px_60px_rgba(15,23,42,0.45)]"
               >
                 <div
@@ -394,14 +391,8 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                  <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--muted-foreground)]">
-                    {t.projectCta}
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">
-                      &rarr;
-                    </span>
-                  </span>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </section>
