@@ -6,6 +6,7 @@ Portfolio profesional, moderno y rápido, orientado a ATS y con UX/UI cuidada.
 - Data-driven: todo el contenido vive en `src/data` (sin hardcode en componentes)
 - Feature-based: preferencias (tema/idioma) en `src/features/preferences`
 - SEO básico: metadata, OpenGraph, `sitemap.xml`, `robots.txt`
+- Iconos: `react-icons`
 
 ## Requisitos cubiertos
 
@@ -21,15 +22,17 @@ Portfolio profesional, moderno y rápido, orientado a ATS y con UX/UI cuidada.
 ```txt
 public/
 	images/
+		headshot.png
 		headshot-placeholder.svg
 		og-placeholder.svg
+	pdf/
+		cv-es.pdf
+		cv-en.pdf
 	projects/
 		project-placeholder-1.svg
 		project-placeholder-2.svg
 		project-placeholder-3.svg
 		project-placeholder-4.svg
-	cv-es.pdf            (TODO: añadir)
-	cv-en.pdf            (TODO: añadir)
 
 src/
 	app/
@@ -61,7 +64,6 @@ src/
 			section.tsx
 			Container.tsx
 			CopyButton.tsx
-			Icons.tsx
 			LocaleToggle.tsx
 			ProjectCard.tsx
 			ThemeToggle.tsx
@@ -121,8 +123,8 @@ Todo lo que veas como `TODO:` es un placeholder intencional.
 
 Este portfolio soporta 2 PDFs y muestra el correcto según el idioma:
 
-- Español: `public/cv-es.pdf`
-- English: `public/cv-en.pdf`
+- Español: `public/pdf/cv-es.pdf` → URL: `/pdf/cv-es.pdf`
+- English: `public/pdf/cv-en.pdf` → URL: `/pdf/cv-en.pdf`
 
 Si aún no los tienes, deja los placeholders y reemplázalos cuando estén listos.
 
@@ -136,4 +138,11 @@ Si aún no los tienes, deja los placeholders y reemplázalos cuando estén listo
 
 - Tema consistente por tokens CSS (Tailwind v4) y `html.dark`
 - Imágenes placeholders con proporción consistente (proyectos 16:10)
+- Skills: hover con color “brand” por tecnología (fallback a `--accent`)
+- Layout: footer “sticky” (siempre abajo) via flex layout
 - Accesibilidad base: labels, focus rings, aria-label en toggles
+
+## Foto de perfil
+
+- Coloca tu imagen en `public/images/headshot.png`
+- Configura el path en `src/data/profile.ts` (`headshot.src`)
