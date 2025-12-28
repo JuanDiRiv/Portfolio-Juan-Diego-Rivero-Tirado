@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e2e8f0" />
+      <stop offset="1" stop-color="#cbd5e1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#g)" />
+  <circle cx="400" cy="330" r="130" fill="#94a3b8" opacity="0.9" />
+  <path d="M180 720c40-150 140-220 220-220s180 70 220 220" fill="#94a3b8" opacity="0.9" />
+  <text x="50%" y="92%" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto" font-size="28" fill="#334155">TODO: Reemplazar por headshot</text>
+</svg>
