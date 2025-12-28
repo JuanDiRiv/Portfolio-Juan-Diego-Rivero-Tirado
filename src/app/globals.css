@@ -54,3 +54,89 @@ html.dark {
     text-rendering: optimizeLegibility;
   }
 }
+
+/* Scoped styling for react-floating-whatsapp internal UI */
+.jdrt-whatsapp [class*="styles-module_whatsappChatBox__"] {
+  border: 1px solid var(--border) !important;
+  background-color: var(--card) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatHeader__"] {
+  background-color: var(--accent) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatHeader__"] [class*="styles-module_status__"] {
+  color: var(--accent-foreground) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatHeader__"] [class*="styles-module_statusSubtitle__"] {
+  color: color-mix(in oklab, var(--accent-foreground) 80%, transparent) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatHeader__"] [class*="styles-module_close__"] svg {
+  fill: var(--accent-foreground) !important;
+}
+
+/* Online dot on avatar */
+.jdrt-whatsapp [class*="styles-module_chatHeader__"] [class*="styles-module_avatar__"]:after {
+  background: var(--accent) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatBody__"] {
+  background-color: var(--muted) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatBubble__"] {
+  background-color: color-mix(in oklab, var(--accent) 14%, var(--card)) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_message__"] {
+  background-color: var(--card) !important;
+  box-shadow: 0px 1px 0.5px 0px rgb(0 0 0 / 10%) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_messageBody__"] {
+  color: var(--foreground) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_messageTime__"] {
+  color: var(--muted-foreground) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_triangle__"] {
+  border-color: transparent var(--card) transparent transparent !important;
+}
+
+/* Typing dots */
+.jdrt-whatsapp [class*="styles-module_typing__"] [class*="styles-module_dot__"] {
+  background-color: color-mix(in oklab, var(--accent) 55%, var(--muted-foreground)) !important;
+}
+
+/* Footer input + send button */
+.jdrt-whatsapp [class*="styles-module_chatFooter__"] {
+  background-color: var(--card) !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatFooter__"] [class*="styles-module_input__"] {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatFooter__"] [class*="styles-module_input__"]::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatFooter__"] [class*="styles-module_input__"]:focus {
+  border-color: var(--ring) !important;
+  box-shadow: 0 0 0 1px var(--ring) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatFooter__"] [class*="styles-module_buttonSend__"] svg {
+  fill: var(--muted-foreground) !important;
+}
+
+.jdrt-whatsapp [class*="styles-module_chatFooter__"] [class*="styles-module_buttonSend__"]:hover svg {
+  fill: var(--accent) !important;
+}

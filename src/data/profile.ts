@@ -18,6 +18,12 @@ export const profile: LocalizedProfile = {
       github: "https://github.com/JuanDiRiv",
       linkedin:
         "https://www.linkedin.com/in/juan-diego-rivero-tirado-95814423b/",
+      whatsapp: {
+        statusMessage: "Disponible · Suelo responder en el día",
+        placeholder: "Escribe tu mensaje…",
+        chatMessage:
+          "Hola, soy Juan Diego. ¿En qué puedo ayudarte? Puedes contarme brevemente tu idea o el problema que quieres resolver.",
+      },
     },
     cv: {
       es: "/pdf/cv-es.pdf",
@@ -29,11 +35,8 @@ export const profile: LocalizedProfile = {
       "Ownership y foco en calidad",
       "Colaboración con diseño y backend",
     ],
-    learningNow: [
-      "Angular",
-      "React Native",
-    ],
-    hobbies: ["Fotografía","Música", "Videojuegos"],
+    learningNow: ["Angular", "React Native"],
+    hobbies: ["Fotografía", "Música", "Videojuegos"],
   },
   en: {
     name: "Juan Diego Rivero Tirado",
@@ -50,6 +53,12 @@ export const profile: LocalizedProfile = {
       github: "https://github.com/JuanDiRiv",
       linkedin:
         "https://www.linkedin.com/in/juan-diego-rivero-tirado-95814423b/",
+      whatsapp: {
+        statusMessage: "Available · I usually reply within a day",
+        placeholder: "Type your message…",
+        chatMessage:
+          "Hi, I'm Juan Diego. How can I help you? Feel free to briefly tell me your idea or the problem you want to solve.",
+      },
     },
     cv: {
       es: "/pdf/cv-es.pdf",
@@ -61,10 +70,7 @@ export const profile: LocalizedProfile = {
       "Ownership with quality focus",
       "Cross-functional collaboration",
     ],
-    learningNow: [
-      "Angular",
-      "React Native",
-    ],
-    hobbies: ["Photography","Music", "Video games"],
+    learningNow: ["Angular", "React Native"],
+    hobbies: ["Photography", "Music", "Video games"],
   },
 };

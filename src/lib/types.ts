@@ -50,6 +50,11 @@ export type Profile = {
   socials: {
     github: string;
     linkedin: string;
+    whatsapp: {
+      statusMessage: string;
+      placeholder: string;
+      chatMessage: string;
+    }
   };
   cv: {
     es: string;
