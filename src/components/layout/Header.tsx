@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LocaleToggle } from "@/components/ui/LocaleToggle";
@@ -28,8 +29,15 @@ function Brand() {
       className="group inline-flex items-center gap-2 rounded-xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       aria-label={locale === "es" ? "Ir al inicio" : "Go home"}
     >
-      <span className="h-8 w-8 rounded-xl bg-accent text-accent-foreground grid place-items-center font-semibold">
-        {siteConfig.brandInitial}
+      <span className="h-8 w-8 rounded-xl bg-accent text-accent-foreground grid place-items-center">
+        <Image
+          src="/images/logo-jdrt.svg"
+          alt={siteConfig.brandInitial}
+          width={24}
+          height={24}
+          className="h-6 w-6"
+          priority
+        />
       </span>
       <span className="hidden text-sm font-semibold tracking-tight sm:inline">
         {siteConfig.brand}

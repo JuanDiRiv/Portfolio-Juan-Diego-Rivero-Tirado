@@ -7,7 +7,7 @@ export const profile: LocalizedProfile = {
     name: "Juan Diego Rivero Tirado",
     headline: "SSR Front-End Developer | React, Next.js, TypeScript",
     email: "juandirivero@gmail.com",
-    location: "TODO: Ciudad, País",
+    location: "Chia Cundinamarca, Colombia",
     summary:
       "SSR Front-End Developer con +4 años de experiencia desarrollando aplicaciones web modernas utilizando React, Next.js y TypeScript. Enfocado en la creación de UI escalables, optimizadas y accesibles, con experiencia en Tailwind CSS, design systems y consumo de APIs, dentro de entornos ágiles.",
     headshot: {
@@ -20,8 +20,6 @@ export const profile: LocalizedProfile = {
         "https://www.linkedin.com/in/juan-diego-rivero-tirado-95814423b/",
     },
     cv: {
-      // Recomendado: 2 PDFs para ES/EN.
-      // Colócalos en /public (ver README).
       es: "/pdf/cv-es.pdf",
       en: "/pdf/cv-en.pdf",
     },
@@ -32,17 +30,16 @@ export const profile: LocalizedProfile = {
       "Colaboración con diseño y backend",
     ],
     learningNow: [
-      "TODO: Accesibilidad avanzada (WCAG)",
-      "TODO: Testing (Playwright / RTL)",
-      "TODO: Performance (Core Web Vitals)",
+      "Angular",
+      "React Native",
     ],
-    hobbies: ["TODO: Fotografía", "TODO: Lectura", "TODO: Running"],
+    hobbies: ["Fotografía","Música", "Videojuegos"],
   },
   en: {
     name: "Juan Diego Rivero Tirado",
     headline: "SSR Front-End Developer | React, Next.js, TypeScript",
     email: "juandirivero@gmail.com",
-    location: "TODO: City, Country",
+    location: "Chia Cundinamarca, Colombia",
     summary:
       "SSR Front-End Developer with 4+ years of experience building modern web applications using React, Next.js, and TypeScript. Focused on creating scalable, high-performance, and accessible UIs, with experience in Tailwind CSS, design systems, and API consumption, working within agile environments.",
     headshot: {
@@ -65,10 +62,9 @@ export const profile: LocalizedProfile = {
       "Cross-functional collaboration",
     ],
     learningNow: [
-      "TODO: Advanced accessibility (WCAG)",
-      "TODO: Testing (Playwright / RTL)",
-      "TODO: Performance (Core Web Vitals)",
+      "Angular",
+      "React Native",
     ],
-    hobbies: ["TODO: Photography", "TODO: Reading", "TODO: Running"],
+    hobbies: ["Photography","Music", "Video games"],
   },
 };
