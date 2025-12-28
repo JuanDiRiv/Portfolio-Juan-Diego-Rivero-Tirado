@@ -16,6 +16,7 @@ export function Footer() {
     <footer className="border-t border-border/70">
       <FloatingWhatsApp
         className="jdrt-whatsapp"
+        buttonClassName="jdrt-whatsapp-button"
         avatar={p.headshot.src}
         phoneNumber="+573124344686"
         accountName={p.name}

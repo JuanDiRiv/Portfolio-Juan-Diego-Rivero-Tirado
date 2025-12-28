@@ -19,10 +19,10 @@ export const profile: LocalizedProfile = {
       linkedin:
         "https://www.linkedin.com/in/juan-diego-rivero-tirado-95814423b/",
       whatsapp: {
-        statusMessage: "Disponible · Suelo responder en el día",
+        statusMessage: "Disponible · Suelo responder a la brevedad",
         placeholder: "Escribe tu mensaje…",
         chatMessage:
-          "Hola, soy Juan Diego. ¿En qué puedo ayudarte? Puedes contarme brevemente tu idea o el problema que quieres resolver.",
+          "Hola, soy Juan Diego. ¿En qué puedo ayudarte?, Estoy abierto a oportunidades laborales y colaboraciones. hazme saber cómo puedo ayudarte. ",
       },
     },
     cv: {
@@ -54,10 +54,10 @@ export const profile: LocalizedProfile = {
       linkedin:
         "https://www.linkedin.com/in/juan-diego-rivero-tirado-95814423b/",
       whatsapp: {
-        statusMessage: "Available · I usually reply within a day",
+        statusMessage: "Available · I usually reply promptly",
         placeholder: "Type your message…",
         chatMessage:
-          "Hi, I'm Juan Diego. How can I help you? Feel free to briefly tell me your idea or the problem you want to solve.",
+          "Hi, I'm Juan Diego. How can I help you? I'm open to job opportunities and collaborations. Let me know how I can assist you. ",
       },
     },
     cv: {
