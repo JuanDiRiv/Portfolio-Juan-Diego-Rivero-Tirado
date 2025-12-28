@@ -14,7 +14,7 @@ export function Footer() {
       <Container className="py-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-muted-foreground">
-            {p.name} · {new Date().getFullYear()}
+           © {p.name} · {new Date().getFullYear()}
           </p>
 
           <div className="flex items-center gap-3">

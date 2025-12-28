@@ -32,7 +32,6 @@ export default function CvPage() {
             </ButtonLink>
           </div>
 
-          <p className="mt-4 text-sm text-muted-foreground">{t.cv.missingPdf}</p>
 
           <Card className="mt-6 overflow-hidden">
             <div className="h-[75vh] w-full">
@@ -42,9 +41,7 @@ export default function CvPage() {
                 className="h-full w-full"
                 aria-label={t.cv.title}
               >
-                <div className="p-6 text-sm text-muted-foreground">
-                  <p>{t.cv.missingPdf}</p>
-                </div>
+
               </object>
             </div>
           </Card>
