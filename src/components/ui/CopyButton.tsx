@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/lib/icon";
 import { useLocale } from "@/features/preferences/LocaleProvider";
 
-export function CopyButton({ value }: { value: string }) {
+export function CopyButton({
+  value,
+  trackId,
+}: {
+  value: string;
+  trackId?: string;
+}) {
   const { t } = useLocale();
   const [copied, setCopied] = useState(false);
 
@@ -32,6 +38,7 @@ export function CopyButton({ value }: { value: string }) {
       size="sm"
       onClick={onCopy}
       aria-label={label}
+      data-track={trackId}
     >
       <Icon name="copy" className="h-4 w-4" />
       {label}

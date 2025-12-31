@@ -53,14 +53,15 @@ export function ProjectCard({ project }: { project: Project }) {
                 variant="primary"
                 size="sm"
                 ariaLabel={demo.label ?? "Demo"}
+                dataTrack={`project_${project.id}_demo`}
               >
                 {demo.label ?? "Demo"}
                 <Icon name="external" className="h-4 w-4" />
               </ButtonLink>
             ) : null}
 
-            {renderRepoLink(repo, t.common.github, t.common.private)}
-            {renderRepoLink(code, t.common.viewCode, t.common.private)}
+            {renderRepoLink(repo, t.common.github, t.common.private, `project_${project.id}_repo`)}
+            {renderRepoLink(code, t.common.viewCode, t.common.private, `project_${project.id}_code`)}
           </div>
         </div>
       </div>
@@ -71,7 +72,8 @@ export function ProjectCard({ project }: { project: Project }) {
 function renderRepoLink(
   link: ProjectLink | undefined,
   fallbackLabel: string,
-  privateLabel: string
+  privateLabel: string,
+  trackId: string
 ) {
   if (!link) return null;
 
@@ -96,6 +98,7 @@ function renderRepoLink(
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
+      data-track={trackId}
     >
       {label}
       {link.private ? (

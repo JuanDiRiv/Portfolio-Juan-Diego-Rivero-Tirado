@@ -92,6 +92,7 @@ export default function ProjectsPage() {
               <Button
                 type="button"
                 variant="secondary"
+                data-track="projects_filter_clear"
                 onClick={() => {
                   setSelectedTech("");
                   setSelectedType("");

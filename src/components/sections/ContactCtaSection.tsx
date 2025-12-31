@@ -30,11 +30,17 @@ export function ContactCtaSection() {
               <a
                 className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium"
                 href={`mailto:${p.email}`}
+                data-track="cta_email_address"
               >
                 {p.email}
               </a>
-              <CopyButton value={p.email} />
-              <ButtonLink href={`mailto:${p.email}`} external={false} size="md">
+              <CopyButton value={p.email} trackId="cta_email_copy" />
+              <ButtonLink
+                href={`mailto:${p.email}`}
+                external={false}
+                size="md"
+                dataTrack="cta_email_cta"
+              >
                 {t.common.emailMe}
               </ButtonLink>
             </div>

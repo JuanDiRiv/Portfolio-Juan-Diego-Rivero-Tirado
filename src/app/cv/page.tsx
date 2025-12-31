@@ -24,10 +24,22 @@ export default function CvPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            <ButtonLink href={cvUrl} external variant="secondary" size="sm">
+            <ButtonLink
+              href={cvUrl}
+              external
+              variant="secondary"
+              size="sm"
+              dataTrack="cv_open_new_tab"
+            >
               {t.cv.openInNewTab}
             </ButtonLink>
-            <ButtonLink href={cvUrl} external variant="primary" size="sm">
+            <ButtonLink
+              href={cvUrl}
+              external
+              variant="primary"
+              size="sm"
+              dataTrack="cv_download"
+            >
               {t.common.download}
             </ButtonLink>
           </div>

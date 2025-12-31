@@ -46,14 +46,25 @@ export function HeroSection() {
               <a
                 className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium text-foreground"
                 href={`mailto:${p.email}`}
+                data-track="hero_email_address"
               >
                 {p.email}
               </a>
-              <CopyButton value={p.email} />
-              <ButtonLink href={`mailto:${p.email}`} variant="primary" size="sm">
+              <CopyButton value={p.email} trackId="hero_email_copy" />
+              <ButtonLink
+                href={`mailto:${p.email}`}
+                variant="primary"
+                size="sm"
+                dataTrack="hero_email_cta"
+              >
                 {t.common.emailMe}
               </ButtonLink>
-              <ButtonLink href="/cv" variant="secondary" size="sm">
+              <ButtonLink
+                href="/cv"
+                variant="secondary"
+                size="sm"
+                dataTrack="hero_cv"
+              >
                 {t.common.viewCv}
               </ButtonLink>
             </div>
@@ -64,6 +75,7 @@ export function HeroSection() {
                 href={p.socials.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track="hero_social_github"
               >
                 <Icon name="github" className="h-5 w-5" />
                 {t.common.github}
@@ -73,6 +85,7 @@ export function HeroSection() {
                 href={p.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track="hero_social_linkedin"
               >
                 <Icon name="linkedin" className="h-5 w-5" />
                 {t.common.linkedin}

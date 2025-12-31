@@ -58,6 +58,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t.common.github}
+              data-track="footer_social_github"
             >
               <Icon name="github" className="h-5 w-5" />
               <span className="sr-only">{t.common.github}</span>
@@ -68,6 +69,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t.common.linkedin}
+              data-track="footer_social_linkedin"
             >
               <Icon name="linkedin" className="h-5 w-5" />
               <span className="sr-only">{t.common.linkedin}</span>

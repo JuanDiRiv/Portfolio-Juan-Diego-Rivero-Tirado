@@ -32,10 +32,11 @@ export default function ContactPage() {
                 <a
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium"
                   href={`mailto:${p.email}`}
+                  data-track="contact_email_address"
                 >
                   {p.email}
                 </a>
-                <CopyButton value={p.email} />
+                <CopyButton value={p.email} trackId="contact_email_copy" />
               </div>
             </Card>
 
@@ -49,6 +50,7 @@ export default function ContactPage() {
                   href={p.socials.github}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-track="contact_social_github"
                 >
                   <Icon name="github" className="h-5 w-5" />
                   {t.common.github}
@@ -58,6 +60,7 @@ export default function ContactPage() {
                   href={p.socials.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-track="contact_social_linkedin"
                 >
                   <Icon name="linkedin" className="h-5 w-5" />
                   {t.common.linkedin}

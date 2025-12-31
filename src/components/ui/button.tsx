@@ -46,6 +46,7 @@ export function ButtonLink({
   size = "md",
   external,
   ariaLabel,
+  dataTrack,
 }: {
   href: string;
   children: ReactNode;
@@ -54,6 +55,7 @@ export function ButtonLink({
   size?: keyof typeof sizes;
   external?: boolean;
   ariaLabel?: string;
+  dataTrack?: string;
 }) {
   const cls = cn(base, variants[variant], sizes[size], className);
 
@@ -65,6 +67,7 @@ export function ButtonLink({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={ariaLabel}
+        data-track={dataTrack}
       >
         {children}
       </a>
@@ -72,7 +75,7 @@ export function ButtonLink({
   }
 
   return (
-    <Link className={cls} href={href} aria-label={ariaLabel}>
+    <Link className={cls} href={href} aria-label={ariaLabel} data-track={dataTrack}>
       {children}
     </Link>
   );

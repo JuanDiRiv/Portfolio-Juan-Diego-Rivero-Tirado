@@ -28,6 +28,7 @@ function Brand() {
       href="/"
       className="group inline-flex items-center gap-2 rounded-xl px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       aria-label={locale === "es" ? "Ir al inicio" : "Go home"}
+      data-track="brand_home"
     >
       <span className="h-8 w-8 rounded-xl bg-accent text-accent-foreground grid place-items-center">
         <Image
@@ -52,10 +53,10 @@ function Nav() {
   return (
     <div className="flex items-center gap-2">
       <nav className="hidden items-center gap-1 sm:flex" aria-label="Primary">
-        <NavLink href="/">{t.nav.home}</NavLink>
-        <NavLink href="/projects">{t.nav.projects}</NavLink>
-        <NavLink href="/about">{t.nav.about}</NavLink>
-        <NavLink href="/contact">{t.nav.contact}</NavLink>
+        <NavLink href="/" trackId="nav_home">{t.nav.home}</NavLink>
+        <NavLink href="/projects" trackId="nav_projects">{t.nav.projects}</NavLink>
+        <NavLink href="/about" trackId="nav_about">{t.nav.about}</NavLink>
+        <NavLink href="/contact" trackId="nav_contact">{t.nav.contact}</NavLink>
       </nav>
 
       <div className="flex items-center gap-1">
@@ -64,6 +65,7 @@ function Nav() {
           variant="secondary"
           size="sm"
           ariaLabel={t.nav.cv}
+          dataTrack="nav_cv"
         >
           {t.nav.cv}
         </ButtonLink>
@@ -74,11 +76,20 @@ function Nav() {
   );
 }
 
-function NavLink({ href, children }: { href: string; children: string }) {
+function NavLink({
+  href,
+  children,
+  trackId,
+}: {
+  href: string;
+  children: string;
+  trackId?: string;
+}) {
   return (
     <Link
       href={href}
       className="rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/70 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      data-track={trackId}
     >
       {children}
     </Link>
