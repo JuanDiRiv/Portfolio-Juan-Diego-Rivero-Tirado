@@ -38,6 +38,11 @@ export function ClickTracker() {
     const sessionIdRef = useRef<string | null>(null);
 
     useEffect(() => {
+        // Never track interactions inside the admin area.
+        if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin")) {
+            return;
+        }
+
         sessionIdRef.current = getOrCreateSessionId();
 
         const flush = async () => {
