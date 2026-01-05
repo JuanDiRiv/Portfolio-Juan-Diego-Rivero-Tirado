@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebaseAdmin";
+import { verifyAdminSessionCookie } from "@/lib/adminSession";
 
 export const runtime = "nodejs";
 
@@ -23,6 +24,12 @@ function clampText(input: unknown, max: number) {
 
 export async function POST(req: Request) {
   try {
+    // If an admin is logged in, never store tracking events.
+    const admin = await verifyAdminSessionCookie();
+    if (admin) {
+      return NextResponse.json({ ok: true, stored: 0, skipped: "admin" });
+    }
+
     const body = (await req.json().catch(() => null)) as {
       events?: IncomingEvent[];
     } | null;

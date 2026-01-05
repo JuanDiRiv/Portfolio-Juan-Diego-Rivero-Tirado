@@ -34,8 +34,11 @@ function pickText(el: HTMLElement): string | undefined {
 
 export function ClickTracker() {
     const queueRef = useRef<ClickEventPayload[]>([]);
+    const pendingRef = useRef<ClickEventPayload[]>([]);
     const flushTimerRef = useRef<number | null>(null);
     const sessionIdRef = useRef<string | null>(null);
+    const authRef = useRef<"unknown" | "admin" | "anon">("unknown");
+    const abortRef = useRef<AbortController | null>(null);
 
     useEffect(() => {
         // Never track interactions inside the admin area.
@@ -45,7 +48,32 @@ export function ClickTracker() {
 
         sessionIdRef.current = getOrCreateSessionId();
 
+        abortRef.current = new AbortController();
+        const checkAdmin = async () => {
+            try {
+                const res = await fetch("/api/admin/me", {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store",
+                    signal: abortRef.current?.signal,
+                });
+
+                authRef.current = res.ok ? "admin" : "anon";
+            } catch {
+                // If the check fails (offline, aborted, etc.), default to tracking.
+                authRef.current = "anon";
+            }
+
+            // If user is not admin, merge any pending events into the main queue.
+            if (authRef.current === "anon" && pendingRef.current.length > 0) {
+                queueRef.current.push(...pendingRef.current.splice(0, pendingRef.current.length));
+            }
+        };
+
+        void checkAdmin();
+
         const flush = async () => {
+            if (authRef.current !== "anon") return;
             const items = queueRef.current.splice(0, 25);
             if (items.length === 0) return;
 
@@ -73,6 +101,7 @@ export function ClickTracker() {
         };
 
         const scheduleFlush = () => {
+            if (authRef.current !== "anon") return;
             if (flushTimerRef.current) return;
             flushTimerRef.current = window.setTimeout(async () => {
                 flushTimerRef.current = null;
@@ -81,6 +110,7 @@ export function ClickTracker() {
         };
 
         const onClick = (event: MouseEvent) => {
+            if (authRef.current === "admin") return;
             const target = event.target as HTMLElement | null;
             if (!target) return;
 
@@ -111,6 +141,14 @@ export function ClickTracker() {
                 referrer: document.referrer || undefined,
             };
 
+            // While auth state is unknown, collect events but do not send.
+            if (authRef.current === "unknown") {
+                pendingRef.current.push(payload);
+                return;
+            }
+
+            if (authRef.current !== "anon") return;
+
             queueRef.current.push(payload);
 
             if (queueRef.current.length >= 10) {
@@ -131,6 +169,10 @@ export function ClickTracker() {
         return () => {
             document.removeEventListener("click", onClick, { capture: true });
             window.removeEventListener("pagehide", onPageHide);
+            if (abortRef.current) {
+                abortRef.current.abort();
+                abortRef.current = null;
+            }
             if (flushTimerRef.current) {
                 window.clearTimeout(flushTimerRef.current);
                 flushTimerRef.current = null;

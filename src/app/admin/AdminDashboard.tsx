@@ -225,9 +225,10 @@ export function AdminDashboard({ rows }: { rows: AdminClickRow[] }) {
                             onChange={(e) => setSelectedSessionId(e.target.value)}
                         >
                             <option value="ALL">Totales (todos)</option>
-                            {sessionIds.map((sid) => (
+                            {sessionIds.map((sid, index) => (
+                                
                                 <option key={sid} value={sid} title={sid}>
-                                    {shortId(sid)}
+                                    {shortId((index + 1).toString())}
                                 </option>
                             ))}
                         </select>
