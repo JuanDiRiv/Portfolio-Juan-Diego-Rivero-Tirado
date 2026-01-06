@@ -16,7 +16,7 @@ export function ThemeToggle() {
       size="sm"
       onClick={toggleTheme}
       aria-label={t.common.theme}
-      className="border border-transparent hover:border-border"
+      className="border border-transparent hover:border-border cursor-pointer"
       data-track="toggle_theme"
     >
       <Icon

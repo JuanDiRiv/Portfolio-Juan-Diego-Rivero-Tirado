@@ -13,7 +13,7 @@ export function LocaleToggle() {
       size="sm"
       onClick={() => setLocale(locale === "es" ? "en" : "es")}
       aria-label={t.common.language}
-      className="border border-transparent hover:border-border"
+      className="border border-transparent hover:border-border cursor-pointer"
       data-track="toggle_locale"
     >
       <span className="text-xs font-semibold tracking-wide">
