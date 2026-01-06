@@ -26,8 +26,8 @@ export const profile: LocalizedProfile = {
       },
     },
     cv: {
-      es: "/pdf/cv-es.pdf",
-      en: "/pdf/cv-en.pdf",
+      es: "/pdf/Spanish-CV-Juan-Diego-Rivero-Tirado.pdf",
+      en: "/pdf/English-CV-Juan-Diego-Rivero-Tirado.pdf",
     },
     softSkills: [
       "Comunicación clara y orientada a contexto",
@@ -61,8 +61,8 @@ export const profile: LocalizedProfile = {
       },
     },
     cv: {
-      es: "/pdf/cv-es.pdf",
-      en: "/pdf/cv-en.pdf",
+      es: "/pdf/Spanish-CV-Juan-Diego-Rivero-Tirado.pdf",
+      en: "/pdf/English-CV-Juan-Diego-Rivero-Tirado.pdf",
     },
     softSkills: [
       "Clear communication and context sharing",
