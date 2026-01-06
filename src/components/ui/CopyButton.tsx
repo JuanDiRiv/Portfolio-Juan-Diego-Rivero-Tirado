@@ -39,6 +39,7 @@ export function CopyButton({
       onClick={onCopy}
       aria-label={label}
       data-track={trackId}
+      className="cursor-pointer"
     >
       <Icon name="copy" className="h-4 w-4" />
       {label}
