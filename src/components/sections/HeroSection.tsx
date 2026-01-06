@@ -29,7 +29,7 @@ export function HeroSection() {
             </div>
 
             <div className="md:hidden">
-              <div className="relative aspect-square w-56 overflow-hidden rounded-3xl border border-border bg-muted shadow-sm shadow-black/5 sm:w-64">
+              <div className="relative mx-auto aspect-square w-56 overflow-hidden rounded-3xl border border-border bg-muted shadow-sm shadow-black/5 sm:w-64">
                 <HeadshotImage
                   key={`mobile:${locale}:${p.headshot.src}`}
                   src={p.headshot.src}
