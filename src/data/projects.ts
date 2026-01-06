@@ -22,24 +22,33 @@ export const projects: LocalizedProjects = {
       },
       featured: true,
     },
-    // {
-    //   id: "project-2",
-    //   title: "[Proyecto 2]",
-    //   description:
-    //     "TODO: Qué construiste, con qué stack y por qué decisiones técnicas.",
-    //   type: "web",
-    //   technologies: ["React", "TypeScript", "Testing"],
-    //   image: {
-    //     src: "/projects/project-placeholder-2.svg",
-    //     alt: "Imagen del proyecto 2 (placeholder)",
-    //   },
-    //   links: {
-    //     demo: { label: "Demo", href: undefined },
-    //     repo: { label: "Repo", href: undefined },
-    //     code: { label: "Ver código", href: undefined },
-    //   },
-    //   featured: true,
-    // },
+    {
+      id: "project-2",
+      title: "Qr Code Generator",
+      description:
+        "Generador de códigos QR en línea que permite a los usuarios crear códigos QR personalizados de manera rápida y sencilla. La aplicación web ofrece una interfaz intuitiva donde los usuarios pueden ingresar la información que desean codificar, como URL, texto o datos de contacto. Además, proporciona opciones de personalización, como colores y estilos de diseño. Una vez generado, el código QR se puede descargar en varios formatos para su uso en diferentes contextos.",
+      type: "web",
+      technologies: ["React", "Next.js", "TypeScript", "SCSS"],
+      image: {
+        src: "/projects/qrcode.png",
+        alt: "Imagen del proyecto Qr Code Generator",
+      },
+      links: {
+        demo: {
+          label: "Demo",
+          href: "https://qr-code-generator-chi-ten.vercel.app/editor",
+        },
+        repo: {
+          label: "Repo",
+          href: "https://github.com/JuanDiRiv/qr-code-generator",
+        },
+        code: {
+          label: "Ver código",
+          href: "https://github.com/JuanDiRiv/qr-code-generator",
+        },
+      },
+      featured: true,
+    },
     // {
     //   id: "project-3",
     //   title: "[Proyecto 3]",
@@ -94,24 +103,33 @@ export const projects: LocalizedProjects = {
       },
       featured: true,
     },
-    // {
-    //   id: "project-2",
-    //   title: "[Project 2]",
-    //   description:
-    //     "TODO: What you built, stack used, and key technical decisions.",
-    //   type: "web",
-    //   technologies: ["React", "TypeScript", "Testing"],
-    //   image: {
-    //     src: "/projects/project-placeholder-2.svg",
-    //     alt: "Project 2 image (placeholder)",
-    //   },
-    //   links: {
-    //     demo: { label: "Demo", href: undefined },
-    //     repo: { label: "Repo", href: undefined },
-    //     code: { label: "View code", href: undefined },
-    //   },
-    //   featured: true,
-    // },
+    {
+      id: "project-2",
+      title: "Qr Code Generator",
+      description:
+        "Online QR code generator that allows users to create customized QR codes quickly and easily. The web application offers an intuitive interface where users can enter the information they want to encode, such as URLs, text, or contact details. Additionally, it provides customization options, such as colors and design styles. Once generated, the QR code can be downloaded in various formats for use in different contexts.",
+      type: "web",
+      technologies: ["React", "Next.js", "TypeScript", "SCSS"],
+      image: {
+        src: "/projects/qrcode.png",
+        alt: "Qr Code Generator project image",
+      },
+      links: {
+        demo: {
+          label: "Demo",
+          href: "https://qr-code-generator-chi-ten.vercel.app/editor",
+        },
+        repo: {
+          label: "Repo",
+          href: "https://github.com/JuanDiRiv/qr-code-generator",
+        },
+        code: {
+          label: "Ver código",
+          href: "https://github.com/JuanDiRiv/qr-code-generator",
+        },
+      },
+      featured: true,
+    },
     // {
     //   id: "project-3",
     //   title: "[Project 3]",
