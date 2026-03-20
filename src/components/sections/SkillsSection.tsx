@@ -14,6 +14,7 @@ const SKILL_ACCENTS: Partial<Record<IconKey, string>> = {
   scss: "#CC6699",
   tailwind: "#38BDF8",
   js: "#F7DF1E",
+  typescript: "#3178C6",
   react: "#61DAFB",
   next: "#e4e4e7",
   astro: "#FF5D01",
@@ -30,6 +31,7 @@ const SKILL_ACCENTS: Partial<Record<IconKey, string>> = {
   "cat-methods": "#00f0ff",
   "cat-devops": "#ff00e5",
   jest: "#C21325",
+  cypress: "#69D3A7",
   git: "#F05032",
   gitlab: "#FC6D26",
   github: "#e4e4e7",
@@ -69,7 +71,7 @@ export function SkillsSection() {
                 {cat.items.map((item) => (
                   <span
                     key={item.label}
-                    className="inline-flex items-center gap-2 rounded-lg border border-border/50 bg-background/50 px-2.5 py-1.5 text-xs font-medium text-foreground transition-all hover:border-[color:var(--skill-accent,var(--accent))]/50 hover:text-[color:var(--skill-accent,var(--accent))] hover:shadow-[0_0_8px_rgba(var(--neon-cyan-rgb),0.1)]"
+                    className="inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/50 px-3 py-2 text-xs font-medium text-muted-foreground transition-all hover:border-[color:var(--skill-accent,var(--accent))]/50 hover:text-[color:var(--skill-accent,var(--accent))] hover:shadow-[0_0_12px_rgba(var(--neon-cyan-rgb),0.12)]"
                     style={
                       item.icon
                         ? ({
@@ -80,7 +82,15 @@ export function SkillsSection() {
                     }
                   >
                     {item.icon ? (
-                      <Icon name={item.icon} className="h-3.5 w-3.5" />
+                      <span
+                        className="flex items-center justify-center rounded-md p-0.5 transition-colors"
+                        style={{
+                          color: `var(--skill-accent, var(--accent))`,
+                          backgroundColor: `color-mix(in srgb, var(--skill-accent, var(--accent)) 12%, transparent)`,
+                        }}
+                      >
+                        <Icon name={item.icon} className="h-4 w-4" />
+                      </span>
                     ) : null}
                     {item.label}
                   </span>

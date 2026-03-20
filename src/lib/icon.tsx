@@ -19,6 +19,7 @@ import {
 
 import {
     SiJavascript,
+    SiTypescript,
     SiReact,
     SiNextdotjs,
     SiAstro,
@@ -34,6 +35,7 @@ import {
     SiGooglecloud,
     SiSalesforce,
     SiJest,
+    SiCypress,
     SiGit,
     SiGithub,
     SiGitlab,
@@ -58,6 +60,7 @@ export type IconKey =
     | "cat-methods"
     | "cat-devops"
     | "js"
+    | "typescript"
     | "react"
     | "next"
     | "astro"
@@ -75,6 +78,7 @@ export type IconKey =
     | "salesforce"
     | "veeva"
     | "jest"
+    | "cypress"
     | "git"
     | "gitlab"
     | "vercel";
@@ -106,6 +110,7 @@ const registry: Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>> = {
     "cat-devops": FiGitBranch,
 
     js: SiJavascript,
+    typescript: SiTypescript,
     react: SiReact,
     next: SiNextdotjs,
     astro: SiAstro,
@@ -127,6 +132,7 @@ const registry: Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>> = {
     veeva: FiLink,
 
     jest: SiJest,
+    cypress: SiCypress,
 
     git: SiGit,
     gitlab: SiGitlab,

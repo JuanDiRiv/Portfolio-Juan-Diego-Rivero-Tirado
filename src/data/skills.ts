@@ -9,6 +9,7 @@ export const skills: LocalizedSkills = {
       title: "Front-end",
       items: [
         { label: "JavaScript", icon: "js" },
+        { label: "TypeScript", icon: "typescript" },
         { label: "React.js", icon: "react" },
         { label: "Next.js", icon: "next" },
         { label: "Astro", icon: "astro" },
@@ -29,11 +30,10 @@ export const skills: LocalizedSkills = {
     },
     {
       id: "db",
-      title: "DB",
+      title: "Databases",
       items: [
         { label: "MySQL", icon: "mysql" },
         { label: "MongoDB", icon: "mongodb" },
-        { label: "Firebase", icon: "firebase" },
       ],
     },
     {
@@ -51,8 +51,8 @@ export const skills: LocalizedSkills = {
       id: "testing",
       title: "Testing",
       items: [
-        { label: "Testing automatizado", icon: "cat-testing" },
         { label: "Jest", icon: "jest" },
+        { label: "Cypress", icon: "cypress" },
       ],
     },
     {
@@ -83,6 +83,7 @@ export const skills: LocalizedSkills = {
       title: "Front-end",
       items: [
         { label: "JavaScript", icon: "js" },
+        { label: "TypeScript", icon: "typescript" },
         { label: "React.js", icon: "react" },
         { label: "Next.js", icon: "next" },
         { label: "Astro", icon: "astro" },
@@ -103,11 +104,10 @@ export const skills: LocalizedSkills = {
     },
     {
       id: "db",
-      title: "DB",
+      title: "Databases",
       items: [
         { label: "MySQL", icon: "mysql" },
         { label: "MongoDB", icon: "mongodb" },
-        { label: "Firebase", icon: "firebase" },
       ],
     },
     {
@@ -125,8 +125,8 @@ export const skills: LocalizedSkills = {
       id: "testing",
       title: "Testing",
       items: [
-        { label: "Automated testing", icon: "cat-testing" },
         { label: "Jest", icon: "jest" },
+        { label: "Cypress", icon: "cypress" },
       ],
     },
     {
