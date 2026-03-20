@@ -17,8 +17,8 @@ export function ContactCtaSection() {
       <Container>
         <div className="relative overflow-hidden rounded-3xl border border-border/50 bg-card/50 p-8 sm:p-12 glass">
           {/* Decorative glow orbs */}
-          <div className="pointer-events-none absolute -top-20 -right-20 h-60 w-60 rounded-full bg-neon-cyan/10 blur-[80px]" />
-          <div className="pointer-events-none absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-neon-magenta/10 blur-[80px]" />
+          <div aria-hidden="true" className="pointer-events-none absolute -top-20 -right-20 h-60 w-60 rounded-full bg-neon-cyan/10 blur-[80px]" />
+          <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-neon-magenta/10 blur-[80px]" />
 
           <div className="relative z-10 flex flex-col items-center text-center gap-6">
             <AnimatedDiv delay={0.1}>

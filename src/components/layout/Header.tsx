@@ -85,6 +85,7 @@ function NavContent({
       home: string;
       projects: string;
       about: string;
+      experience: string;
       contact: string;
       cv: string;
     };
@@ -99,6 +100,7 @@ function NavContent({
       isHome
         ? [
             { href: "#about", label: t.nav.about, trackId: "nav_about" },
+            { href: "#experience", label: t.nav.experience, trackId: "nav_experience" },
             { href: "#projects", label: t.nav.projects, trackId: "nav_projects" },
             { href: "#skills", label: "Skills", trackId: "nav_skills" },
             { href: "#contact", label: t.nav.contact, trackId: "nav_contact" },
@@ -106,7 +108,7 @@ function NavContent({
         : [
             { href: "/", label: t.nav.home, trackId: "nav_home" },
           ],
-    [t.nav.about, t.nav.contact, t.nav.home, t.nav.projects, isHome]
+    [t.nav.about, t.nav.contact, t.nav.experience, t.nav.home, t.nav.projects, isHome]
   );
 
   function handleClick(href: string) {
@@ -126,7 +128,7 @@ function NavContent({
           <a
             key={l.href}
             href={l.href}
-            className="rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent"
+            className="rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             data-track={l.trackId}
             onClick={(e) => {
               if (l.href.startsWith("#")) {
@@ -167,7 +169,6 @@ function NavContent({
 
       <div
         id={menuId}
-        role="dialog"
         aria-label="Menú"
         aria-hidden={!isOpen}
         className={cn(

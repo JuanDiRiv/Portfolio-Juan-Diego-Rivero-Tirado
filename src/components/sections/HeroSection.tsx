@@ -17,8 +17,8 @@ export function HeroSection() {
   return (
     <section className="relative min-h-dvh flex items-center gradient-bg grid-pattern overflow-hidden">
       {/* Decorative orbs */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-neon-cyan/10 blur-[120px]" />
-      <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-neon-magenta/10 blur-[120px]" />
+      <div aria-hidden="true" className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-neon-cyan/10 blur-[120px]" />
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-neon-magenta/10 blur-[120px]" />
 
       <Container className="relative z-10 py-20 pt-28">
         <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-center">
@@ -148,6 +148,7 @@ export function HeroSection() {
 
       {/* Scroll indicator */}
       <motion.div
+        aria-hidden="true"
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

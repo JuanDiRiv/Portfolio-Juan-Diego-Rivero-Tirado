@@ -24,6 +24,19 @@ export type Project = {
   featured?: boolean;
 };
 
+export type Experience = {
+  id: string;
+  role: string;
+  company: string;
+  companyUrl?: string;
+  location?: string;
+  startDate: string;
+  endDate?: string;
+  description: string;
+  highlights: string[];
+  technologies: string[];
+};
+
 export type SkillCategory = {
   id:
     | "frontend"
@@ -70,6 +83,7 @@ export type I18n = {
     home: string;
     projects: string;
     about: string;
+    experience: string;
     contact: string;
     cv: string;
   };
@@ -89,6 +103,9 @@ export type I18n = {
   home: {
     featuredProjectsTitle: string;
     skillsTitle: string;
+    experienceTitle: string;
+    experienceSubtitle: string;
+    present: string;
     contactCtaTitle: string;
     contactCtaBody: string;
   };

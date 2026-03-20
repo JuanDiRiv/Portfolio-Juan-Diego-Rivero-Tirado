@@ -6,6 +6,7 @@ export const i18n: Record<Locale, I18n> = {
       home: "Inicio",
       projects: "Proyectos",
       about: "Sobre mí",
+      experience: "Experiencia",
       contact: "Contacto",
       cv: "CV",
     },
@@ -25,6 +26,9 @@ export const i18n: Record<Locale, I18n> = {
     home: {
       featuredProjectsTitle: "Proyectos principales",
       skillsTitle: "Habilidades técnicas",
+      experienceTitle: "Experiencia laboral",
+      experienceSubtitle: "Mi trayectoria profesional como desarrollador.",
+      present: "Presente",
       contactCtaTitle: "¿Hablamos?",
       contactCtaBody:
         "Si quieres colaborar o tienes una oportunidad, escríbeme. Respondo lo antes posible.",
@@ -65,6 +69,7 @@ export const i18n: Record<Locale, I18n> = {
       home: "Home",
       projects: "Projects",
       about: "About",
+      experience: "Experience",
       contact: "Contact",
       cv: "Resume",
     },
@@ -84,6 +89,9 @@ export const i18n: Record<Locale, I18n> = {
     home: {
       featuredProjectsTitle: "Featured projects",
       skillsTitle: "Technical skills",
+      experienceTitle: "Work experience",
+      experienceSubtitle: "My professional journey as a developer.",
+      present: "Present",
       contactCtaTitle: "Let’s talk",
       contactCtaBody:
         "If you want to collaborate or have an opportunity, email me. I’ll reply as soon as possible.",
