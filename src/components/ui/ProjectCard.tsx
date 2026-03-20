@@ -1,9 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Icon } from "@/lib/icon";
 import type { Project, ProjectLink } from "@/lib/types";
 import { useLocale } from "@/features/preferences/LocaleProvider";
@@ -16,22 +14,23 @@ export function ProjectCard({ project }: { project: Project }) {
   const code = project.links?.code;
 
   return (
-    <Card className="overflow-hidden">
-      <div className="grid gap-4 md:grid-cols-[220px_1fr]">
-        <div className="relative aspect-16/10 w-full bg-muted md:aspect-auto md:h-full">
+    <div className="group overflow-hidden rounded-2xl border border-border/50 bg-card/50 transition-all hover:border-accent/30 hover:shadow-[0_0_30px_rgba(var(--neon-cyan-rgb),0.06)] glass">
+      <div className="grid gap-4 md:grid-cols-[240px_1fr]">
+        <div className="relative aspect-16/10 w-full bg-muted/50 md:aspect-auto md:h-full overflow-hidden">
           <Image
             src={project.image.src}
             alt={project.image.alt}
             fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 220px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 240px"
             loading="lazy"
           />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         </div>
 
         <div className="flex flex-col gap-3 p-5">
           <div className="flex flex-col gap-1">
-            <h3 className="text-base font-semibold tracking-tight">
+            <h3 className="text-base font-semibold tracking-tight group-hover:text-accent transition-colors">
               {project.title}
             </h3>
             <p className="text-sm leading-6 text-muted-foreground">
@@ -41,7 +40,12 @@ export function ProjectCard({ project }: { project: Project }) {
 
           <div className="flex flex-wrap gap-2">
             {project.technologies.map((tech) => (
-              <Badge key={tech}>{tech}</Badge>
+              <span
+                key={tech}
+                className="inline-flex items-center rounded-md border border-border/50 bg-background/50 px-2 py-0.5 text-xs font-medium text-muted-foreground"
+              >
+                {tech}
+              </span>
             ))}
           </div>
 
@@ -60,12 +64,22 @@ export function ProjectCard({ project }: { project: Project }) {
               </ButtonLink>
             ) : null}
 
-            {renderRepoLink(repo, t.common.github, t.common.private, `project_${project.id}_repo`)}
-            {renderRepoLink(code, t.common.viewCode, t.common.private, `project_${project.id}_code`)}
+            {renderRepoLink(
+              repo,
+              t.common.github,
+              t.common.private,
+              `project_${project.id}_repo`
+            )}
+            {renderRepoLink(
+              code,
+              t.common.viewCode,
+              t.common.private,
+              `project_${project.id}_code`
+            )}
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -81,10 +95,10 @@ function renderRepoLink(
 
   if (!link.href) {
     return (
-      <span className="inline-flex items-center gap-2 rounded-xl border border-border bg-muted px-3 py-2 text-sm font-medium text-muted-foreground">
+      <span className="inline-flex items-center gap-2 rounded-xl border border-border/50 bg-muted/50 px-3 py-2 text-sm font-medium text-muted-foreground">
         {label}
         {link.private ? (
-          <span className="rounded-full border border-border bg-card px-2 py-0.5 text-xs text-foreground">
+          <span className="rounded-full border border-border/50 bg-card/50 px-2 py-0.5 text-xs text-foreground">
             {privateLabel}
           </span>
         ) : null}
@@ -94,7 +108,7 @@ function renderRepoLink(
 
   return (
     <a
-      className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="inline-flex items-center justify-center gap-2 rounded-xl border border-border/50 bg-muted/50 px-3 py-2 text-sm font-medium text-foreground transition-all hover:border-accent/30 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -102,7 +116,7 @@ function renderRepoLink(
     >
       {label}
       {link.private ? (
-        <span className="rounded-full border border-border bg-card px-2 py-0.5 text-xs text-foreground">
+        <span className="rounded-full border border-border/50 bg-card/50 px-2 py-0.5 text-xs text-foreground">
           {privateLabel}
         </span>
       ) : null}

@@ -13,7 +13,7 @@ export function Footer() {
   const p = profile[locale];
 
   return (
-    <footer className="border-t border-border/70">
+    <footer className="border-t border-border/50">
       <FloatingWhatsApp
         className="jdrt-whatsapp"
         buttonClassName="jdrt-whatsapp-button"
@@ -53,7 +53,7 @@ export function Footer() {
 
           <div className="flex items-center gap-3">
             <a
-              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               href={p.socials.github}
               target="_blank"
               rel="noopener noreferrer"
@@ -64,7 +64,7 @@ export function Footer() {
               <span className="sr-only">{t.common.github}</span>
             </a>
             <a
-              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               href={p.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"

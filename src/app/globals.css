@@ -11,6 +11,12 @@
   --accent-rgb: 37, 99, 235;
   --accent-foreground: #ffffff;
   --ring: #2563eb;
+  --neon-cyan: #00f0ff;
+  --neon-cyan-rgb: 0, 240, 255;
+  --neon-magenta: #ff00e5;
+  --neon-magenta-rgb: 255, 0, 229;
+  --neon-green: #39ff14;
+  --neon-green-rgb: 57, 255, 20;
 }
 
 @theme inline {
@@ -23,26 +29,36 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-magenta: var(--neon-magenta);
+  --color-neon-green: var(--neon-green);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 html.dark {
-  --background: #0b1020;
-  --foreground: #e5e7eb;
-  --card: #0f172a;
-  --muted: #111b34;
+  --background: #000000;
+  --foreground: #e4e4e7;
+  --card: #0a0a0a;
+  --muted: #111111;
   --muted-foreground: #a1a1aa;
-  --border: #24304d;
-  --accent: #60a5fa;
-  --accent-rgb: 96, 165, 250;
-  --accent-foreground: #0b1020;
-  --ring: #60a5fa;
+  --border: #1a1a1a;
+  --accent: #00f0ff;
+  --accent-rgb: 0, 240, 255;
+  --accent-foreground: #000000;
+  --ring: #00f0ff;
+  --neon-cyan: #00f0ff;
+  --neon-cyan-rgb: 0, 240, 255;
+  --neon-magenta: #ff00e5;
+  --neon-magenta-rgb: 255, 0, 229;
+  --neon-green: #39ff14;
+  --neon-green-rgb: 57, 255, 20;
 }
 
 @layer base {
   html {
     color-scheme: light;
+    scroll-behavior: smooth;
   }
 
   html.dark {
@@ -55,6 +71,101 @@ html.dark {
     color: var(--foreground);
     text-rendering: optimizeLegibility;
   }
+
+  ::selection {
+    background: rgba(var(--neon-cyan-rgb), 0.3);
+    color: var(--foreground);
+  }
+}
+
+/* Neon glow utilities */
+.neon-glow {
+  text-shadow: 0 0 7px rgba(var(--neon-cyan-rgb), 0.6),
+    0 0 20px rgba(var(--neon-cyan-rgb), 0.4),
+    0 0 40px rgba(var(--neon-cyan-rgb), 0.2);
+}
+
+.neon-glow-magenta {
+  text-shadow: 0 0 7px rgba(var(--neon-magenta-rgb), 0.6),
+    0 0 20px rgba(var(--neon-magenta-rgb), 0.4),
+    0 0 40px rgba(var(--neon-magenta-rgb), 0.2);
+}
+
+.neon-border {
+  box-shadow: 0 0 5px rgba(var(--neon-cyan-rgb), 0.3),
+    inset 0 0 5px rgba(var(--neon-cyan-rgb), 0.1);
+}
+
+.neon-border-magenta {
+  box-shadow: 0 0 5px rgba(var(--neon-magenta-rgb), 0.3),
+    inset 0 0 5px rgba(var(--neon-magenta-rgb), 0.1);
+}
+
+.glass {
+  background: rgba(var(--neon-cyan-rgb), 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(var(--neon-cyan-rgb), 0.08);
+}
+
+html:not(.dark) .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border);
+}
+
+/* Animated gradient background for hero */
+.gradient-bg {
+  background: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(var(--neon-cyan-rgb), 0.15),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 80% 50%,
+      rgba(var(--neon-magenta-rgb), 0.08),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 50% 30% at 20% 80%,
+      rgba(var(--neon-green-rgb), 0.05),
+      transparent
+    );
+}
+
+html:not(.dark) .gradient-bg {
+  background: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(37, 99, 235, 0.06),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 80% 50%,
+      rgba(147, 51, 234, 0.04),
+      transparent
+    );
+}
+
+/* Grid pattern overlay */
+.grid-pattern {
+  background-image: linear-gradient(
+      rgba(var(--neon-cyan-rgb), 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(var(--neon-cyan-rgb), 0.03) 1px,
+      transparent 1px
+    );
+  background-size: 60px 60px;
+}
+
+html:not(.dark) .grid-pattern {
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
 /* Scoped styling for react-floating-whatsapp internal UI */
@@ -79,7 +190,6 @@ html.dark {
   fill: var(--accent-foreground) !important;
 }
 
-/* Online dot on avatar */
 .jdrt-whatsapp [class*="styles-module_chatHeader__"] [class*="styles-module_avatar__"]:after {
   background: var(--accent) !important;
 }
@@ -109,12 +219,10 @@ html.dark {
   border-color: transparent var(--card) transparent transparent !important;
 }
 
-/* Typing dots */
 .jdrt-whatsapp [class*="styles-module_typing__"] [class*="styles-module_dot__"] {
   background-color: color-mix(in oklab, var(--accent) 55%, var(--muted-foreground)) !important;
 }
 
-/* Footer input + send button */
 .jdrt-whatsapp [class*="styles-module_chatFooter__"] {
   background-color: var(--card) !important;
   border-top: 1px solid var(--border) !important;
@@ -143,7 +251,6 @@ html.dark {
   fill: var(--accent) !important;
 }
 
-/* Floating button wave (pulse) color */
 .jdrt-whatsapp-button {
   position: relative;
   background-color: var(--accent) !important;
@@ -155,7 +262,6 @@ html.dark {
   inset: 0 !important;
   border-radius: 9999px !important;
   pointer-events: none;
-
   animation: jdrt-whatsapp-pulse 1.2s infinite !important;
 }
 
@@ -163,7 +269,6 @@ html.dark {
   0% {
     box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.75);
   }
-
   100% {
     box-shadow: 0 0 0 15px rgba(var(--accent-rgb), 0);
   }
