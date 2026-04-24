@@ -89,7 +89,7 @@ Rules:
 - For experience entries, set "id" to a stable slug.
   * If existingIds hint provides a match where company AND role describe the same position (case-insensitive, semantic match), REUSE that exact id.
   * Otherwise, generate id as kebab-case ascii: "<company>-<role>-<startYear>". Strip diacritics, lowercase, replace spaces with "-".
-- Skills must be grouped into one of these category ids only: frontend, backend, db, cloud_tools, testing, methodologies, devops. Each category title must be localized.
+- Skills must be grouped into categories. Prefer reusing one of these canonical ids when applicable: frontend, backend, db, cloud_tools, testing, methodologies, devops. If the CV introduces a topic that does not fit any canonical id (for example: "AI tools", "design", "mobile", "data science", "security"), CREATE a new category with a stable kebab-case ascii id (e.g. "ai-tools", "design", "mobile", "data-science", "security"). Reuse ids from the existingCategoryIds hint when the topic matches semantically. Each category title must be localized in es and en.
 - For each skill item, set icon to one of these keys when applicable, else null: html, css, scss, tailwind, js, typescript, react, next, astro, seo, node, mysql, mongodb, firebase, aws, gcp, salesforce, veeva, jest, cypress, git, gitlab, github, vercel, link.
 - About section: extract a concise professional summary (3-5 sentences), soft skills, what the candidate is currently learning, and hobbies. If the CV omits any, return an empty array (or empty string for summary) — never fabricate.
 - Keep technology lists deduplicated and consistently capitalized (e.g. "React", "Next.js", "TypeScript").
@@ -173,6 +173,13 @@ export async function POST(req: Request) {
     }
   }
 
+  const existingCategoryIds: Array<{ id: string; title: string }> = [];
+  if (published?.skills?.en) {
+    for (const cat of published.skills.en) {
+      existingCategoryIds.push({ id: cat.id, title: cat.title });
+    }
+  }
+
   const openai = getOpenAI();
   const model = getOpenAIModel();
 
@@ -185,7 +192,7 @@ export async function POST(req: Request) {
     });
     uploadedFileId = uploaded.id;
 
-    const userInstruction = `Extract and translate the attached CV PDF.\n\nexistingIds hint (reuse these ids when a position matches semantically):\n${JSON.stringify(existingIds, null, 2)}`;
+    const userInstruction = `Extract and translate the attached CV PDF.\n\nexistingIds hint (reuse these experience ids when a position matches semantically):\n${JSON.stringify(existingIds, null, 2)}\n\nexistingCategoryIds hint (reuse these skill category ids when a topic matches; otherwise create new kebab-case ids for topics like AI tools, design, mobile, etc.):\n${JSON.stringify(existingCategoryIds, null, 2)}`;
 
     const response = await openai.responses.create({
       model,

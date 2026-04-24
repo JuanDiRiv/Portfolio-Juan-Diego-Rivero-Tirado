@@ -37,7 +37,9 @@ export type Experience = {
   technologies: string[];
 };
 
-export type SkillCategoryId =
+// Built-in canonical category ids. The model may generate additional kebab-case ids
+// (e.g. "ai-tools", "design") when the CV introduces a topic not covered here.
+export type CanonicalSkillCategoryId =
   | "frontend"
   | "backend"
   | "db"
@@ -45,6 +47,8 @@ export type SkillCategoryId =
   | "testing"
   | "methodologies"
   | "devops";
+
+export type SkillCategoryId = CanonicalSkillCategoryId | (string & {});
 
 export type SkillCategory = {
   id: SkillCategoryId;

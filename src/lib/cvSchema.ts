@@ -34,15 +34,12 @@ const skillItemSchema = z.object({
 });
 
 const skillCategorySchema = z.object({
-  id: z.enum([
-    "frontend",
-    "backend",
-    "db",
-    "cloud_tools",
-    "testing",
-    "methodologies",
-    "devops",
-  ]),
+  id: z
+    .string()
+    .min(1)
+    .regex(/^[a-z0-9]+(?:[-_][a-z0-9]+)*$/, {
+      message: "Category id must be lowercase kebab/snake_case ascii",
+    }),
   title: localizedString,
   items: z.array(skillItemSchema),
 });
@@ -148,15 +145,9 @@ export const cvExtractionJsonSchema = {
           properties: {
             id: {
               type: "string",
-              enum: [
-                "frontend",
-                "backend",
-                "db",
-                "cloud_tools",
-                "testing",
-                "methodologies",
-                "devops",
-              ],
+              description:
+                "Category id. Prefer reusing one of the canonical ids: frontend, backend, db, cloud_tools, testing, methodologies, devops. If the CV covers a topic that does not fit any of these, create a NEW kebab-case ascii id (e.g. 'ai-tools', 'design', 'mobile', 'data-science'). Lowercase, only [a-z0-9-_].",
+              pattern: "^[a-z0-9]+(?:[-_][a-z0-9]+)*$",
             },
             title: localizedStringJson,
             items: {

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { unstable_cache, revalidateTag } from "next/cache";
+import { unstable_cache, revalidateTag, revalidatePath } from "next/cache";
 import { getAdminDb } from "@/lib/firebaseAdmin";
 import { experience as fallbackExperience } from "@/data/experience";
 import { skills as fallbackSkills } from "@/data/skills";
@@ -162,4 +162,13 @@ export async function getPublishedDoc(): Promise<SiteContentDoc | null> {
 
 export function invalidateSiteContent() {
   revalidateTag(SITE_CONTENT_TAG, "max");
+  // Force regeneration of pages that consumed the cached site content.
+  // Without this, statically-rendered routes (revalidate: 5m) may keep serving
+  // the stale snapshot until the ISR window expires.
+  try {
+    revalidatePath("/");
+    revalidatePath("/about");
+  } catch {
+    // revalidatePath throws outside a request context (e.g. during build); ignore.
+  }
 }
