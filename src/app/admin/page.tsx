@@ -2,8 +2,10 @@ import { redirect } from "next/navigation";
 import { getAdminDb } from "@/lib/firebaseAdmin";
 import { verifyAdminSessionCookie } from "@/lib/adminSession";
 import { AdminDashboard, type AdminClickRow } from "@/app/admin/AdminDashboard";
+import { getDraftSiteContent, getPublishedDoc } from "@/lib/siteContent";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 function asString(value: unknown): string | undefined {
     return typeof value === "string" ? value : undefined;
@@ -21,12 +23,16 @@ export default async function AdminPage() {
 
     const sinceMs = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
 
-    const snap = await db
-        .collection("clickEvents")
-        .where("tsMs", ">=", sinceMs)
-        .orderBy("tsMs", "desc")
-        .limit(500)
-        .get();
+    const [snap, cvDraft, cvPublished] = await Promise.all([
+        db
+            .collection("clickEvents")
+            .where("tsMs", ">=", sinceMs)
+            .orderBy("tsMs", "desc")
+            .limit(500)
+            .get(),
+        getDraftSiteContent(),
+        getPublishedDoc(),
+    ]);
 
     const rows: AdminClickRow[] = snap.docs.map((d) => {
         const raw = d.data() as Record<string, unknown>;
@@ -43,5 +49,5 @@ export default async function AdminPage() {
         };
     });
 
-    return <AdminDashboard rows={rows} />;
+    return <AdminDashboard rows={rows} cvDraft={cvDraft} cvPublished={cvPublished} />;
 }

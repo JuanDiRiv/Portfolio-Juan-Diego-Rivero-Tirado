@@ -4,15 +4,18 @@ import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { FeaturedProjectsSection } from "@/components/sections/FeaturedProjectsSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { ContactCtaSection } from "@/components/sections/ContactCtaSection";
+import { getSiteContent } from "@/lib/siteContent";
 
-export default function Home() {
+export default async function Home() {
+  const content = await getSiteContent();
+
   return (
     <>
       <HeroSection />
-      <AboutSection />
-      <ExperienceSection />
+      <AboutSection data={content.about} />
+      <ExperienceSection data={content.experience} />
       <FeaturedProjectsSection />
-      <SkillsSection />
+      <SkillsSection data={content.skills} />
       <ContactCtaSection />
     </>
   );

@@ -5,8 +5,8 @@ import type { CSSProperties } from "react";
 import { Container } from "@/components/ui/Container";
 import { AnimatedSection, AnimatedDiv } from "@/components/ui/AnimatedSection";
 import { useLocale } from "@/features/preferences/LocaleProvider";
-import { skills } from "@/data/skills";
 import { Icon, type IconKey } from "@/lib/icon";
+import type { Locale, SkillCategory } from "@/lib/types";
 
 const SKILL_ACCENTS: Partial<Record<IconKey, string>> = {
   html: "#E34F26",
@@ -41,9 +41,13 @@ const SKILL_ACCENTS: Partial<Record<IconKey, string>> = {
 
 type SkillAccentStyle = CSSProperties & { "--skill-accent"?: string };
 
-export function SkillsSection() {
+export function SkillsSection({
+  data,
+}: {
+  data: Record<Locale, SkillCategory[]>;
+}) {
   const { locale, t } = useLocale();
-  const categories = skills[locale];
+  const categories = data[locale];
 
   return (
     <AnimatedSection id="skills" className="py-20 sm:py-28">

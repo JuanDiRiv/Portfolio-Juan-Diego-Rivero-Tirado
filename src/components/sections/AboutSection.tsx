@@ -2,12 +2,16 @@
 
 import { Container } from "@/components/ui/Container";
 import { AnimatedSection, AnimatedDiv } from "@/components/ui/AnimatedSection";
-import { profile } from "@/data/profile";
 import { useLocale } from "@/features/preferences/LocaleProvider";
+import type { AboutFields, Locale } from "@/lib/types";
 
-export function AboutSection() {
+export function AboutSection({
+  data,
+}: {
+  data: Record<Locale, AboutFields>;
+}) {
   const { locale, t } = useLocale();
-  const p = profile[locale];
+  const p = data[locale];
 
   return (
     <AnimatedSection id="about" className="py-20 sm:py-28">

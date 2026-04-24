@@ -5,6 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/card";
 import { AdminLogoutButton } from "@/app/admin/AdminLogoutButton";
 import { Button } from "@/components/ui/button";
+import { CvUploadPanel } from "@/app/admin/CvUploadPanel";
+import type { SiteContentDoc } from "@/lib/types";
 
 export type AdminClickRow = {
     id: string;
@@ -117,10 +119,21 @@ function formatDayLabel(key: string) {
     }
 }
 
-export function AdminDashboard({ rows }: { rows: AdminClickRow[] }) {
+export function AdminDashboard({
+    rows,
+    cvDraft,
+    cvPublished,
+}: {
+    rows: AdminClickRow[];
+    cvDraft: SiteContentDoc | null;
+    cvPublished: SiteContentDoc | null;
+}) {
     const [allRows, setAllRows] = useState<AdminClickRow[]>(rows);
     const [selectedSessionId, setSelectedSessionId] = useState<string>("ALL");
     const [deleting, setDeleting] = useState(false);
+    const [activeTab, setActiveTab] = useState<"analytics" | "cv">(
+        cvDraft ? "cv" : "analytics"
+    );
 
     const sessionIds = useMemo(() => {
         const set = new Set<string>();
@@ -214,10 +227,55 @@ export function AdminDashboard({ rows }: { rows: AdminClickRow[] }) {
                 <div>
                     <h1 className="text-2xl font-semibold tracking-tight">Admin</h1>
                     <p className="mt-1 text-sm text-muted-foreground">
-                        Clicks últimos 7 días (máx. 500 eventos cargados).
+                        {activeTab === "analytics"
+                            ? "Clicks últimos 7 días (máx. 500 eventos cargados)."
+                            : "Sube un PDF del CV para que la IA actualice el contenido del sitio."}
                     </p>
+                </div>
+                <AdminLogoutButton />
+            </div>
 
-                    <div className="mt-4 flex items-center gap-3">
+            <div
+                role="tablist"
+                aria-label="Secciones del admin"
+                className="mt-6 inline-flex gap-1 rounded-xl border border-border/60 bg-card/40 p-1 text-sm"
+            >
+                {(
+                    [
+                        { id: "analytics", label: "Analytics" },
+                        { id: "cv", label: "CV / IA" },
+                    ] as const
+                ).map((tab) => {
+                    const active = activeTab === tab.id;
+                    return (
+                        <button
+                            key={tab.id}
+                            type="button"
+                            role="tab"
+                            aria-selected={active}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+                                active
+                                    ? "bg-accent/15 text-accent"
+                                    : "text-muted-foreground hover:text-foreground"
+                            }`}
+                        >
+                            {tab.label}
+                        </button>
+                    );
+                })}
+            </div>
+
+            {activeTab === "cv" ? (
+                <CvUploadPanel
+                    initialDraft={cvDraft}
+                    publishedUpdatedAt={cvPublished?.updatedAt}
+                    publishedAt={cvPublished?.publishedAt}
+                    publishedSourceFileName={cvPublished?.sourceFileName}
+                />
+            ) : (
+                <>
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
                         <span className="text-sm text-muted-foreground">Ver:</span>
                         <select
                             className="h-10 rounded-xl border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
@@ -226,13 +284,11 @@ export function AdminDashboard({ rows }: { rows: AdminClickRow[] }) {
                         >
                             <option value="ALL">Totales (todos)</option>
                             {sessionIds.map((sid, index) => (
-                                
                                 <option key={sid} value={sid} title={sid}>
                                     {shortId((index + 1).toString())}
                                 </option>
                             ))}
                         </select>
-
 
                         <Button
                             variant="secondary"
@@ -278,11 +334,42 @@ export function AdminDashboard({ rows }: { rows: AdminClickRow[] }) {
                             {deleting ? "Eliminando…" : "Eliminar clicks de este usuario"}
                         </Button>
                     </div>
-                </div>
-                <AdminLogoutButton />
-            </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                    <AnalyticsPanel
+                        total={total}
+                        uniqueVisitors={uniqueVisitors}
+                        topPaths={topPaths}
+                        topHrefs={topHrefs}
+                        kinds={kinds}
+                        visitorsByDay={visitorsByDay}
+                        filteredRows={filteredRows}
+                    />
+                </>
+            )}
+        </Container>
+    );
+}
+
+function AnalyticsPanel({
+    total,
+    uniqueVisitors,
+    topPaths,
+    topHrefs,
+    kinds,
+    visitorsByDay,
+    filteredRows,
+}: {
+    total: number;
+    uniqueVisitors: number;
+    topPaths: Array<[string, number]>;
+    topHrefs: Array<[string, number]>;
+    kinds: Array<[string, number]>;
+    visitorsByDay: { series: Array<{ day: string; count: number }>; max: number };
+    filteredRows: AdminClickRow[];
+}) {
+    return (
+        <>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <Card className="p-5">
                     <div className="text-sm text-muted-foreground">Total clicks</div>
                     <div className="mt-2 text-3xl font-semibold">{total}</div>
@@ -437,6 +524,6 @@ export function AdminDashboard({ rows }: { rows: AdminClickRow[] }) {
                     </table>
                 </div>
             </Card>
-        </Container>
+        </>
     );
 }

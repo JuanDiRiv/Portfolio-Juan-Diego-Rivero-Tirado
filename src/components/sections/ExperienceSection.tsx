@@ -5,13 +5,16 @@ import {
   AnimatedSection,
   AnimatedDiv,
 } from "@/components/ui/AnimatedSection";
-import { experience } from "@/data/experience";
 import { useLocale } from "@/features/preferences/LocaleProvider";
-import type { Experience } from "@/lib/types";
+import type { Experience, Locale } from "@/lib/types";
 
-export function ExperienceSection() {
+export function ExperienceSection({
+  data,
+}: {
+  data: Record<Locale, Experience[]>;
+}) {
   const { locale, t } = useLocale();
-  const items = experience[locale];
+  const items = data[locale];
 
   return (
     <AnimatedSection id="experience" className="py-20 sm:py-28">

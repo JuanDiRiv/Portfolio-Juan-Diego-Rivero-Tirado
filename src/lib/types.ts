@@ -37,17 +37,43 @@ export type Experience = {
   technologies: string[];
 };
 
+export type SkillCategoryId =
+  | "frontend"
+  | "backend"
+  | "db"
+  | "cloud_tools"
+  | "testing"
+  | "methodologies"
+  | "devops";
+
 export type SkillCategory = {
-  id:
-    | "frontend"
-    | "backend"
-    | "db"
-    | "cloud_tools"
-    | "testing"
-    | "methodologies"
-    | "devops";
+  id: SkillCategoryId;
   title: string;
   items: Array<{ label: string; icon?: import("@/lib/icon").IconKey }>;
+};
+
+export type AboutFields = {
+  summary: string;
+  softSkills: string[];
+  learningNow: string[];
+  hobbies: string[];
+};
+
+export type SiteContent = {
+  experience: Record<Locale, Experience[]>;
+  skills: Record<Locale, SkillCategory[]>;
+  about: Record<Locale, AboutFields>;
+};
+
+export type SiteContentDocStatus = "draft" | "published";
+
+export type SiteContentDoc = SiteContent & {
+  status: SiteContentDocStatus;
+  updatedAt: number;
+  publishedAt?: number;
+  updatedBy?: string;
+  sourceFileName?: string;
+  model?: string;
 };
 
 export type Profile = {
