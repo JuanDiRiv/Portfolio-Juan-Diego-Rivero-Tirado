@@ -91,13 +91,16 @@ type ProcessResult = {
 export async function POST(req: Request) {
   const admin = await verifyAdminSessionCookie();
   if (!admin) {
-    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: "Unauthorized" },
+      { status: 401 },
+    );
   }
 
   if (!process.env.OPENAI_API_KEY) {
     return NextResponse.json(
       { ok: false, error: "OPENAI_API_KEY is not configured" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -107,7 +110,7 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json(
       { ok: false, error: "Invalid multipart payload" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -115,19 +118,19 @@ export async function POST(req: Request) {
   if (!(file instanceof File)) {
     return NextResponse.json(
       { ok: false, error: "Missing 'file' field" },
-      { status: 400 }
+      { status: 400 },
     );
   }
   if (file.type && file.type !== "application/pdf") {
     return NextResponse.json(
       { ok: false, error: "Only PDF files are accepted" },
-      { status: 400 }
+      { status: 400 },
     );
   }
   if (file.size > MAX_PDF_BYTES) {
     return NextResponse.json(
       { ok: false, error: "PDF exceeds 8MB limit" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -196,7 +199,7 @@ export async function POST(req: Request) {
     if (!rawText) {
       return NextResponse.json(
         { ok: false, error: "Empty response from model" },
-        { status: 422 }
+        { status: 422 },
       );
     }
 
@@ -206,7 +209,7 @@ export async function POST(req: Request) {
     } catch {
       return NextResponse.json(
         { ok: false, error: "Model returned invalid JSON" },
-        { status: 422 }
+        { status: 422 },
       );
     }
 
@@ -218,7 +221,7 @@ export async function POST(req: Request) {
           error: "Schema validation failed",
           issues: validation.error.issues,
         },
-        { status: 422 }
+        { status: 422 },
       );
     }
 
@@ -323,7 +326,7 @@ export async function POST(req: Request) {
       isProd
         ? { ok: false, error: "Failed to process CV" }
         : { ok: false, error: message },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     if (uploadedFileId) {

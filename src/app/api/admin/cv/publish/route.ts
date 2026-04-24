@@ -16,16 +16,21 @@ export const runtime = "nodejs";
 export async function POST() {
   const admin = await verifyAdminSessionCookie();
   if (!admin) {
-    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: "Unauthorized" },
+      { status: 401 },
+    );
   }
 
   const db = getAdminDb();
-  const draftRef = db.collection(SITE_CONTENT_COLLECTION).doc(SITE_CONTENT_DRAFT_DOC);
+  const draftRef = db
+    .collection(SITE_CONTENT_COLLECTION)
+    .doc(SITE_CONTENT_DRAFT_DOC);
   const draftSnap = await draftRef.get();
   if (!draftSnap.exists) {
     return NextResponse.json(
       { ok: false, error: "No draft to publish" },
-      { status: 404 }
+      { status: 404 },
     );
   }
 

@@ -12,7 +12,10 @@ export const runtime = "nodejs";
 export async function POST() {
   const admin = await verifyAdminSessionCookie();
   if (!admin) {
-    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: "Unauthorized" },
+      { status: 401 },
+    );
   }
 
   const db = getAdminDb();

@@ -254,11 +254,10 @@ export function AdminDashboard({
                             role="tab"
                             aria-selected={active}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`rounded-lg px-4 py-2 font-medium transition-colors ${
-                                active
+                            className={`rounded-lg px-4 py-2 font-medium transition-colors ${active
                                     ? "bg-accent/15 text-accent"
                                     : "text-muted-foreground hover:text-foreground"
-                            }`}
+                                }`}
                         >
                             {tab.label}
                         </button>

@@ -85,7 +85,7 @@ async function readPublishedFromFirestore(): Promise<SiteContent> {
 const cachedSiteContent = unstable_cache(
   async () => readPublishedFromFirestore(),
   ["site-content"],
-  { tags: [SITE_CONTENT_TAG], revalidate: 300 }
+  { tags: [SITE_CONTENT_TAG], revalidate: 300 },
 );
 
 export async function getSiteContent(): Promise<SiteContent> {

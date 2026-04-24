@@ -79,9 +79,9 @@ export function SkillsSection({
                     style={
                       item.icon
                         ? ({
-                            "--skill-accent":
-                              SKILL_ACCENTS[item.icon] ?? "var(--accent)",
-                          } as SkillAccentStyle)
+                          "--skill-accent":
+                            SKILL_ACCENTS[item.icon] ?? "var(--accent)",
+                        } as SkillAccentStyle)
                         : undefined
                     }
                   >

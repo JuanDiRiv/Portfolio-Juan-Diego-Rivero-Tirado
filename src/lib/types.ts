@@ -93,7 +93,7 @@ export type Profile = {
       statusMessage: string;
       placeholder: string;
       chatMessage: string;
-    }
+    };
   };
   cv: {
     es: string;
