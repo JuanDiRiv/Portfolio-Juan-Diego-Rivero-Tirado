@@ -222,11 +222,11 @@ export function AdminDashboard({
     }, [filteredRows]);
 
     return (
-        <Container className="py-10">
-            <div className="flex items-start justify-between gap-4">
+        <Container className="py-12 sm:py-16">
+            <div className="flex flex-wrap items-start justify-between gap-6">
                 <div>
-                    <h1 className="text-2xl font-semibold tracking-tight">Admin</h1>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Admin</h1>
+                    <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
                         {activeTab === "analytics"
                             ? "Clicks últimos 7 días (máx. 500 eventos cargados)."
                             : "Sube un PDF del CV para que la IA actualice el contenido del sitio."}
@@ -238,7 +238,7 @@ export function AdminDashboard({
             <div
                 role="tablist"
                 aria-label="Secciones del admin"
-                className="mt-6 inline-flex gap-1 rounded-xl border border-border/60 bg-card/40 p-1 text-sm"
+                className="mt-8 inline-flex gap-1 rounded-xl border border-border/60 bg-card/40 p-1 text-sm"
             >
                 {(
                     [
@@ -265,19 +265,20 @@ export function AdminDashboard({
                 })}
             </div>
 
-            {activeTab === "cv" ? (
-                <CvUploadPanel
-                    initialDraft={cvDraft}
-                    publishedUpdatedAt={cvPublished?.updatedAt}
-                    publishedAt={cvPublished?.publishedAt}
-                    publishedSourceFileName={cvPublished?.sourceFileName}
-                />
-            ) : (
-                <>
-                    <div className="mt-6 flex flex-wrap items-center gap-3">
-                        <span className="text-sm text-muted-foreground">Ver:</span>
-                        <select
-                            className="h-10 rounded-xl border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+            <div className="mt-8">
+                {activeTab === "cv" ? (
+                    <CvUploadPanel
+                        initialDraft={cvDraft}
+                        publishedUpdatedAt={cvPublished?.updatedAt}
+                        publishedAt={cvPublished?.publishedAt}
+                        publishedSourceFileName={cvPublished?.sourceFileName}
+                    />
+                ) : (
+                    <>
+                        <div className="flex flex-wrap items-center gap-3">
+                            <span className="text-sm text-muted-foreground">Ver:</span>
+                            <select
+                                className="h-10 rounded-xl border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
                             value={selectedSessionId}
                             onChange={(e) => setSelectedSessionId(e.target.value)}
                         >
@@ -343,8 +344,9 @@ export function AdminDashboard({
                         visitorsByDay={visitorsByDay}
                         filteredRows={filteredRows}
                     />
-                </>
-            )}
+                    </>
+                )}
+            </div>
         </Container>
     );
 }
@@ -382,7 +384,7 @@ function AnalyticsPanel({
                 </Card>
             </div>
 
-            <Card className="mt-4 p-5">
+            <Card className="mt-6 p-5">
                 <div className="flex items-baseline justify-between gap-4">
                     <div className="text-sm font-medium">Visitantes únicos por día</div>
                     <div className="text-xs text-muted-foreground">Últimos 7 días</div>
@@ -416,7 +418,7 @@ function AnalyticsPanel({
                 </div>
             </Card>
 
-            <Card className="mt-4 p-5">
+            <Card className="mt-6 p-5">
                 <div className="text-sm text-muted-foreground">Por tipo</div>
                 <div className="mt-2 space-y-1 text-sm">
                     {kinds.length === 0 ? (
@@ -432,7 +434,7 @@ function AnalyticsPanel({
                 </div>
             </Card>
 
-            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
                 <Card className="p-5">
                     <div className="text-sm font-medium">Top páginas</div>
                     <div className="mt-3 space-y-2 text-sm">
