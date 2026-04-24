@@ -255,8 +255,8 @@ export function AdminDashboard({
                             aria-selected={active}
                             onClick={() => setActiveTab(tab.id)}
                             className={`rounded-lg px-4 py-2 font-medium transition-colors ${active
-                                    ? "bg-accent/15 text-accent"
-                                    : "text-muted-foreground hover:text-foreground"
+                                ? "bg-accent/15 text-accent"
+                                : "text-muted-foreground hover:text-foreground"
                                 }`}
                         >
                             {tab.label}
@@ -279,71 +279,71 @@ export function AdminDashboard({
                             <span className="text-sm text-muted-foreground">Ver:</span>
                             <select
                                 className="h-10 rounded-xl border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
-                            value={selectedSessionId}
-                            onChange={(e) => setSelectedSessionId(e.target.value)}
-                        >
-                            <option value="ALL">Totales (todos)</option>
-                            {sessionIds.map((sid, index) => (
-                                <option key={sid} value={sid} title={sid}>
-                                    {shortId((index + 1).toString())}
-                                </option>
-                            ))}
-                        </select>
+                                value={selectedSessionId}
+                                onChange={(e) => setSelectedSessionId(e.target.value)}
+                            >
+                                <option value="ALL">Totales (todos)</option>
+                                {sessionIds.map((sid, index) => (
+                                    <option key={sid} value={sid} title={sid}>
+                                        {shortId((index + 1).toString())}
+                                    </option>
+                                ))}
+                            </select>
 
-                        <Button
-                            variant="secondary"
-                            size="sm"
-                            disabled={selectedSessionId === "ALL" || deleting}
-                            onClick={async () => {
-                                if (selectedSessionId === "ALL") return;
-                                const ok = window.confirm(
-                                    "¿Eliminar TODOS los clicks de este usuario (sessionId seleccionado)?"
-                                );
-                                if (!ok) return;
-
-                                setDeleting(true);
-                                try {
-                                    const res = await fetch("/api/admin/clicks/delete", {
-                                        method: "POST",
-                                        headers: { "content-type": "application/json" },
-                                        body: JSON.stringify({ sessionId: selectedSessionId }),
-                                    });
-
-                                    const data = await res.json().catch(() => null);
-                                    if (!res.ok) {
-                                        window.alert(data?.error || "No se pudo eliminar.");
-                                        return;
-                                    }
-
-                                    setAllRows((prev) =>
-                                        prev.filter(
-                                            (r) => (r.sessionId || "").trim() !== selectedSessionId
-                                        )
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                disabled={selectedSessionId === "ALL" || deleting}
+                                onClick={async () => {
+                                    if (selectedSessionId === "ALL") return;
+                                    const ok = window.confirm(
+                                        "¿Eliminar TODOS los clicks de este usuario (sessionId seleccionado)?"
                                     );
-                                    setSelectedSessionId("ALL");
+                                    if (!ok) return;
 
-                                    const msg = data?.truncated
-                                        ? `Se eliminaron ${data?.deleted ?? 0} eventos (truncado).`
-                                        : `Se eliminaron ${data?.deleted ?? 0} eventos.`;
-                                    window.alert(msg);
-                                } finally {
-                                    setDeleting(false);
-                                }
-                            }}
-                        >
-                            {deleting ? "Eliminando…" : "Eliminar clicks de este usuario"}
-                        </Button>
-                    </div>
+                                    setDeleting(true);
+                                    try {
+                                        const res = await fetch("/api/admin/clicks/delete", {
+                                            method: "POST",
+                                            headers: { "content-type": "application/json" },
+                                            body: JSON.stringify({ sessionId: selectedSessionId }),
+                                        });
 
-                    <AnalyticsPanel
-                        total={total}
-                        uniqueVisitors={uniqueVisitors}
-                        topPaths={topPaths}
-                        topHrefs={topHrefs}
-                        kinds={kinds}
-                        visitorsByDay={visitorsByDay}
-                        filteredRows={filteredRows}
-                    />
+                                        const data = await res.json().catch(() => null);
+                                        if (!res.ok) {
+                                            window.alert(data?.error || "No se pudo eliminar.");
+                                            return;
+                                        }
+
+                                        setAllRows((prev) =>
+                                            prev.filter(
+                                                (r) => (r.sessionId || "").trim() !== selectedSessionId
+                                            )
+                                        );
+                                        setSelectedSessionId("ALL");
+
+                                        const msg = data?.truncated
+                                            ? `Se eliminaron ${data?.deleted ?? 0} eventos (truncado).`
+                                            : `Se eliminaron ${data?.deleted ?? 0} eventos.`;
+                                        window.alert(msg);
+                                    } finally {
+                                        setDeleting(false);
+                                    }
+                                }}
+                            >
+                                {deleting ? "Eliminando…" : "Eliminar clicks de este usuario"}
+                            </Button>
+                        </div>
+
+                        <AnalyticsPanel
+                            total={total}
+                            uniqueVisitors={uniqueVisitors}
+                            topPaths={topPaths}
+                            topHrefs={topHrefs}
+                            kinds={kinds}
+                            visitorsByDay={visitorsByDay}
+                            filteredRows={filteredRows}
+                        />
                     </>
                 )}
             </div>
