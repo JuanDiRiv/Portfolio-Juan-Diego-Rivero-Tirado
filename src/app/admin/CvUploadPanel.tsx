@@ -1,11 +1,19 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition, type DragEvent } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Locale, SiteContentDoc } from "@/lib/types";
 
 type Status = "idle" | "uploading" | "success" | "error";
+
+const MAX_PDF_BYTES = 8 * 1024 * 1024;
+
+function formatBytes(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
 
 export type CvUploadPanelProps = {
     initialDraft: SiteContentDoc | null;
@@ -35,6 +43,47 @@ export function CvUploadPanel({
     const [error, setError] = useState<string | null>(null);
     const [previewLocale, setPreviewLocale] = useState<Locale>("es");
     const [pending, startTransition] = useTransition();
+    const [isDragging, setIsDragging] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    function selectFile(candidate: File | null | undefined) {
+        if (!candidate) return;
+        if (candidate.type && candidate.type !== "application/pdf") {
+            setStatus("error");
+            setError("Solo se aceptan archivos PDF.");
+            return;
+        }
+        if (candidate.size > MAX_PDF_BYTES) {
+            setStatus("error");
+            setError("El PDF supera el límite de 8MB.");
+            return;
+        }
+        setFile(candidate);
+        setError(null);
+        if (status === "error" || status === "success") setStatus("idle");
+    }
+
+    function onDragOver(e: DragEvent<HTMLDivElement>) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (status === "uploading") return;
+        setIsDragging(true);
+    }
+
+    function onDragLeave(e: DragEvent<HTMLDivElement>) {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    }
+
+    function onDrop(e: DragEvent<HTMLDivElement>) {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+        if (status === "uploading") return;
+        const dropped = e.dataTransfer.files?.[0];
+        selectFile(dropped);
+    }
 
     async function onProcess() {
         if (!file) return;
@@ -103,20 +152,97 @@ export function CvUploadPanel({
                     actualizar el sitio.
                 </p>
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
-                    <input
-                        type="file"
-                        accept="application/pdf"
-                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                        disabled={status === "uploading"}
-                        className="block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-accent/10 file:px-3 file:py-2 file:text-accent hover:file:bg-accent/20"
-                    />
-                    <Button
-                        onClick={onProcess}
-                        disabled={!file || status === "uploading"}
+                <div className="mt-4 grid gap-3">
+                    <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Soltar PDF aquí o hacer clic para seleccionar"
+                        onClick={() => {
+                            if (status === "uploading") return;
+                            fileInputRef.current?.click();
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                fileInputRef.current?.click();
+                            }
+                        }}
+                        onDragOver={onDragOver}
+                        onDragEnter={onDragOver}
+                        onDragLeave={onDragLeave}
+                        onDrop={onDrop}
+                        className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-10 text-center transition-colors ${isDragging
+                                ? "border-accent bg-accent/10"
+                                : "border-border/60 hover:border-accent/60 hover:bg-accent/5"
+                            } ${status === "uploading" ? "pointer-events-none opacity-60" : "cursor-pointer"}`}
                     >
-                        {status === "uploading" ? "Procesando…" : "Analizar con IA"}
-                    </Button>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="h-8 w-8 text-muted-foreground"
+                            aria-hidden="true"
+                        >
+                            <path d="M12 16V4" />
+                            <path d="m6 10 6-6 6 6" />
+                            <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+                        </svg>
+                        {file ? (
+                            <div className="flex flex-col items-center gap-0.5">
+                                <span className="text-sm font-medium text-foreground">
+                                    {file.name}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                    {formatBytes(file.size)} · clic o suelta otro PDF para reemplazar
+                                </span>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center gap-0.5">
+                                <span className="text-sm font-medium">
+                                    {isDragging
+                                        ? "Suelta el PDF aquí"
+                                        : "Arrastra un PDF o haz clic para seleccionarlo"}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                    Solo PDF · máx. 8MB
+                                </span>
+                            </div>
+                        )}
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="application/pdf"
+                            onChange={(e) => selectFile(e.target.files?.[0] ?? null)}
+                            disabled={status === "uploading"}
+                            className="sr-only"
+                        />
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-end gap-2">
+                        {file && (
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => {
+                                    setFile(null);
+                                    if (fileInputRef.current) fileInputRef.current.value = "";
+                                }}
+                                disabled={status === "uploading"}
+                            >
+                                Quitar
+                            </Button>
+                        )}
+                        <Button
+                            onClick={onProcess}
+                            disabled={!file || status === "uploading"}
+                        >
+                            {status === "uploading" ? "Procesando…" : "Analizar con IA"}
+                        </Button>
+                    </div>
                 </div>
 
                 {status === "error" && error && (
@@ -180,8 +306,8 @@ export function CvUploadPanel({
                                 type="button"
                                 onClick={() => setPreviewLocale(lang)}
                                 className={`rounded-md px-3 py-1 font-medium transition-colors ${previewLocale === lang
-                                        ? "bg-accent/15 text-accent"
-                                        : "text-muted-foreground hover:text-foreground"
+                                    ? "bg-accent/15 text-accent"
+                                    : "text-muted-foreground hover:text-foreground"
                                     }`}
                             >
                                 {lang.toUpperCase()}

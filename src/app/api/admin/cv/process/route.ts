@@ -63,6 +63,23 @@ function pickIcon(value: string | null): IconKey | undefined {
   return ALLOWED_ICON_KEYS.has(value) ? (value as IconKey) : undefined;
 }
 
+// Recursively remove keys whose value is `undefined` so Firestore accepts the document
+// even if `ignoreUndefinedProperties` setting wasn't applied (e.g. on first cold start).
+function stripUndefined<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return value.map((v) => stripUndefined(v)) as unknown as T;
+  }
+  if (value && typeof value === "object" && !(value instanceof Date)) {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      if (v === undefined) continue;
+      out[k] = stripUndefined(v);
+    }
+    return out as T;
+  }
+  return value;
+}
+
 const SYSTEM_PROMPT = `You extract structured resume data from a candidate's CV PDF.
 
 Rules:
@@ -303,10 +320,12 @@ export async function POST(req: Request) {
     await db
       .collection(SITE_CONTENT_COLLECTION)
       .doc(SITE_CONTENT_DRAFT_DOC)
-      .set({
-        ...draft,
-        updatedAtTs: Timestamp.now(),
-      });
+      .set(
+        stripUndefined({
+          ...draft,
+          updatedAtTs: Timestamp.now(),
+        }),
+      );
 
     const result: ProcessResult = {
       ok: true,

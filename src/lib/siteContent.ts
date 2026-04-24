@@ -59,6 +59,42 @@ function isSiteContentShape(value: unknown): value is SiteContent {
   );
 }
 
+// Convert any non-plain values (Firestore Timestamp, Date, class instances) into
+// values safe to cross the Server -> Client component boundary.
+function toPlain<T>(value: T): T {
+  if (value === null || value === undefined) return value;
+  if (Array.isArray(value)) return value.map((v) => toPlain(v)) as unknown as T;
+  if (typeof value !== "object") return value;
+
+  const obj = value as unknown as {
+    toMillis?: () => number;
+    toDate?: () => Date;
+  };
+  if (typeof obj.toMillis === "function") {
+    return obj.toMillis() as unknown as T;
+  }
+  if (value instanceof Date) {
+    return value.getTime() as unknown as T;
+  }
+
+  const proto = Object.getPrototypeOf(value);
+  if (proto === Object.prototype || proto === null) {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      if (v === undefined) continue;
+      out[k] = toPlain(v);
+    }
+    return out as T;
+  }
+
+  // Fallback for other class instances: round-trip through JSON.
+  try {
+    return JSON.parse(JSON.stringify(value)) as T;
+  } catch {
+    return value;
+  }
+}
+
 async function readPublishedFromFirestore(): Promise<SiteContent> {
   try {
     const db = getAdminDb();
@@ -102,7 +138,7 @@ export async function getDraftSiteContent(): Promise<SiteContentDoc | null> {
     if (!snap.exists) return null;
     const data = snap.data();
     if (!isSiteContentShape(data)) return null;
-    return data as SiteContentDoc;
+    return toPlain(data) as SiteContentDoc;
   } catch {
     return null;
   }
@@ -118,7 +154,7 @@ export async function getPublishedDoc(): Promise<SiteContentDoc | null> {
     if (!snap.exists) return null;
     const data = snap.data();
     if (!isSiteContentShape(data)) return null;
-    return data as SiteContentDoc;
+    return toPlain(data) as SiteContentDoc;
   } catch {
     return null;
   }

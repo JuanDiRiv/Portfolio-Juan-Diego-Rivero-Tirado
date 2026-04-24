@@ -20,13 +20,24 @@ export function getFirebaseAdminApp() {
   const privateKeyRaw = getRequiredEnv("FIREBASE_ADMIN_PRIVATE_KEY");
   const privateKey = privateKeyRaw.replace(/\\n/g, "\n");
 
-  return initializeApp({
+  const app = initializeApp({
     credential: cert({
       projectId,
       clientEmail,
       privateKey,
     }),
   });
+
+  // Apply Firestore settings ONCE, before any read/write happens.
+  // `ignoreUndefinedProperties` lets us write objects with optional `undefined`
+  // fields (e.g. optional URLs from AI extraction) without throwing.
+  try {
+    getFirestore(app).settings({ ignoreUndefinedProperties: true });
+  } catch {
+    // settings already applied (HMR / hot reload). Safe to ignore.
+  }
+
+  return app;
 }
 
 export function getAdminAuth() {
