@@ -31,6 +31,10 @@ const experienceItemSchema = z.object({
 const skillItemSchema = z.object({
   label: z.string().min(1),
   icon: z.string().nullable(),
+  color: z
+    .string()
+    .regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/)
+    .nullable(),
 });
 
 const skillCategorySchema = z.object({
@@ -155,13 +159,19 @@ export const cvExtractionJsonSchema = {
               items: {
                 type: "object",
                 additionalProperties: false,
-                required: ["label", "icon"],
+                required: ["label", "icon", "color"],
                 properties: {
                   label: { type: "string" },
                   icon: {
                     type: ["string", "null"],
                     description:
-                      "Optional icon key from the IconKey set (e.g. react, next, typescript, node, mysql, mongodb, firebase, aws, gcp, salesforce, veeva, jest, cypress, git, github, gitlab, vercel). Use null if unknown.",
+                      "Exact react-icons component name (must come from the allowedIcons list provided in the user message). Use null only if no good match exists.",
+                  },
+                  color: {
+                    type: ["string", "null"],
+                    description:
+                      "Brand hex color for the icon/chip (e.g. '#10A37F' for OpenAI, '#F7DF1E' for JavaScript). Use null if unknown.",
+                    pattern: "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
                   },
                 },
               },

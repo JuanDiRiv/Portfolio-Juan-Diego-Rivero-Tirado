@@ -50,10 +50,18 @@ export type CanonicalSkillCategoryId =
 
 export type SkillCategoryId = CanonicalSkillCategoryId | (string & {});
 
+export type SkillItem = {
+  label: string;
+  // Either a curated short key or a react-icons component name (e.g. "SiOpenai").
+  icon?: import("@/lib/icon").IconKey | string;
+  // Optional brand color in hex (e.g. "#10A37F"). Used for the chip accent.
+  color?: string;
+};
+
 export type SkillCategory = {
   id: SkillCategoryId;
   title: string;
-  items: Array<{ label: string; icon?: import("@/lib/icon").IconKey }>;
+  items: SkillItem[];
 };
 
 export type AboutFields = {

@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from "react";
+import { createElement, type ComponentType, type SVGProps } from "react";
 
 import {
     FiExternalLink,
@@ -15,6 +15,15 @@ import {
     FiLink,
     FiUsers,
     FiSearch,
+    FiCpu,
+    FiSmartphone,
+    FiShield,
+    FiTerminal,
+    FiBox,
+    FiTool,
+    FiServer,
+    FiActivity,
+    FiEdit2,
 } from "react-icons/fi";
 
 import {
@@ -40,8 +49,121 @@ import {
     SiGithub,
     SiGitlab,
     SiVercel,
+    SiOpenai,
+    SiAnthropic,
+    SiClaude,
+    SiGithubcopilot,
+    SiPerplexity,
+    SiHuggingface,
+    SiGooglegemini,
+    SiLangchain,
+    SiAuth0,
+    SiObsidian,
+    SiMaterialdesign,
+    SiVeed,
+    SiPython,
+    SiDjango,
+    SiFlask,
+    SiFastapi,
+    SiDocker,
+    SiKubernetes,
+    SiNginx,
+    SiPostgresql,
+    SiRedis,
+    SiSqlite,
+    SiGraphql,
+    SiPrisma,
+    SiSupabase,
+    SiVuedotjs,
+    SiAngular,
+    SiSvelte,
+    SiNuxtdotjs,
+    SiExpress,
+    SiNestjs,
+    SiJira,
+    SiNotion,
+    SiSlack,
+    SiFigma,
+    SiLinux,
+    SiUbuntu,
+    SiApple,
+    SiGo,
+    SiRust,
+    SiKotlin,
+    SiSwift,
+    SiCplusplus,
+    SiC,
+    SiPhp,
+    SiRuby,
+    SiRubyonrails,
+    SiSpring,
+    SiDotnet,
+    SiRedux,
+    SiStorybook,
+    SiWebpack,
+    SiVite,
+    SiBabel,
+    SiEslint,
+    SiPrettier,
+    SiBootstrap,
+    SiMui,
+    SiChakraui,
+    SiRadixui,
+    SiShadcnui,
+    SiFramer,
+    SiThreedotjs,
+    SiD3Dotjs,
+    SiSelenium,
+    SiVitest,
+    SiPostman,
+    SiInsomnia,
+    SiSwagger,
+    SiTrello,
+    SiConfluence,
+    SiAdobephotoshop,
+    SiAdobeillustrator,
+    SiAdobexd,
+    SiCanva,
+    SiTensorflow,
+    SiPytorch,
+    SiPandas,
+    SiNumpy,
+    SiScikitlearn,
+    SiJupyter,
+    SiKaggle,
+    SiOpencv,
+    SiKeras,
+    SiAndroid,
+    SiIos,
+    SiFlutter,
+    SiDart,
+    SiExpo,
+    SiCloudflare,
+    SiHeroku,
+    SiNetlify,
+    SiDigitalocean,
+    SiRender,
+    SiBitbucket,
+    SiCircleci,
+    SiTravisci,
+    SiJenkins,
+    SiGithubactions,
+    SiTerraform,
+    SiAnsible,
+    SiPrometheus,
+    SiGrafana,
+    SiElasticsearch,
+    SiKibana,
+    SiApachekafka,
+    SiRabbitmq,
+    SiStripe,
+    SiPaypal,
+    SiTwilio,
+    SiSendgrid,
+    SiVeeam,
 } from "react-icons/si";
 
+// ---------- Static / canonical icon keys (used across the app for autocomplete) ----------
 export type IconKey =
     | "theme-light"
     | "theme-dark"
@@ -59,6 +181,12 @@ export type IconKey =
     | "cat-testing"
     | "cat-methods"
     | "cat-devops"
+    | "cat-ai"
+    | "cat-mobile"
+    | "cat-design"
+    | "cat-security"
+    | "cat-data"
+    // Legacy short aliases kept for the curated tech-stack list
     | "js"
     | "typescript"
     | "react"
@@ -89,7 +217,10 @@ const LinkedInIcon: ComponentType<SVGProps<SVGSVGElement>> = (props) => (
     </svg>
 );
 
-const registry: Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>> = {
+type IconComp = ComponentType<SVGProps<SVGSVGElement>>;
+
+// ---------- Curated short-key registry (kept for existing static callsites) ----------
+const shortRegistry: Record<IconKey, IconComp> = {
     "theme-light": FiSun,
     "theme-dark": FiMoon,
     globe: FiGlobe,
@@ -108,6 +239,11 @@ const registry: Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>> = {
     "cat-testing": FiCheckCircle,
     "cat-methods": FiUsers,
     "cat-devops": FiGitBranch,
+    "cat-ai": FiCpu,
+    "cat-mobile": FiSmartphone,
+    "cat-design": FiEdit2,
+    "cat-security": FiShield,
+    "cat-data": FiActivity,
 
     js: SiJavascript,
     typescript: SiTypescript,
@@ -129,7 +265,7 @@ const registry: Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>> = {
     aws: SiAmazon,
     gcp: SiGooglecloud,
     salesforce: SiSalesforce,
-    veeva: FiLink,
+    veeva: SiVeeam,
 
     jest: SiJest,
     cypress: SiCypress,
@@ -139,15 +275,65 @@ const registry: Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>> = {
     vercel: SiVercel,
 };
 
+// ---------- Extended registry: react-icons by exact name (Si* / Fi*) ----------
+// AI extraction returns names from this allow-list. Add more as needed.
+const reactIconsRegistry: Record<string, IconComp> = {
+    // Si*
+    SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiAstro, SiHtml5, SiCss3,
+    SiSass, SiTailwindcss, SiNodedotjs, SiMysql, SiMongodb, SiFirebase, SiAmazon,
+    SiGooglecloud, SiSalesforce, SiJest, SiCypress, SiGit, SiGithub, SiGitlab,
+    SiVercel, SiOpenai, SiAnthropic, SiClaude, SiGithubcopilot, SiPerplexity,
+    SiHuggingface, SiGooglegemini, SiLangchain, SiAuth0, SiObsidian,
+    SiMaterialdesign, SiVeed, SiPython, SiDjango,
+    SiFlask, SiFastapi, SiDocker, SiKubernetes, SiNginx, SiPostgresql, SiRedis,
+    SiSqlite, SiGraphql, SiPrisma, SiSupabase, SiVuedotjs, SiAngular, SiSvelte,
+    SiNuxtdotjs, SiExpress, SiNestjs, SiJira, SiNotion, SiSlack, SiFigma,
+    SiLinux, SiUbuntu, SiApple, SiGo, SiRust, SiKotlin, SiSwift, SiCplusplus,
+    SiC, SiPhp, SiRuby, SiRubyonrails, SiSpring, SiDotnet, SiRedux, SiStorybook,
+    SiWebpack, SiVite, SiBabel, SiEslint, SiPrettier, SiBootstrap, SiMui,
+    SiChakraui, SiRadixui, SiShadcnui, SiFramer, SiThreedotjs, SiD3Dotjs,
+    SiPlaywright: FiCheckCircle,
+    SiSelenium, SiVitest, SiPostman, SiInsomnia, SiSwagger,
+    SiTrello, SiConfluence, SiAdobephotoshop, SiAdobeillustrator, SiAdobexd,
+    SiCanva, SiTensorflow, SiPytorch, SiPandas, SiNumpy, SiScikitlearn,
+    SiJupyter, SiKaggle, SiOpencv, SiKeras, SiAndroid, SiIos, SiFlutter,
+    SiDart, SiExpo, SiCloudflare, SiHeroku, SiNetlify, SiDigitalocean, SiRender,
+    SiBitbucket, SiCircleci, SiTravisci, SiJenkins, SiGithubactions,
+    SiTerraform, SiAnsible, SiPrometheus, SiGrafana, SiElasticsearch, SiKibana,
+    SiApachekafka, SiRabbitmq, SiStripe, SiPaypal, SiTwilio, SiSendgrid,
+    SiVeeam,
+
+    // Fi* (generic fallbacks)
+    FiCode, FiDatabase, FiCloud, FiCheckCircle, FiLayers, FiGitBranch, FiLink,
+    FiUsers, FiSearch, FiCpu, FiSmartphone, FiShield, FiTerminal, FiBox, FiTool,
+    FiServer, FiActivity, FiSun, FiMoon, FiGlobe, FiCopy, FiExternalLink,
+    FiEdit2,
+};
+
+// All react-icons names available to the AI extractor (used in the prompt).
+export const ALLOWED_REACT_ICON_NAMES: ReadonlyArray<string> = Object.keys(
+    reactIconsRegistry,
+);
+
+function resolveIcon(name: string): IconComp | null {
+    if (name in shortRegistry) return shortRegistry[name as IconKey];
+    if (name in reactIconsRegistry) return reactIconsRegistry[name];
+    return null;
+}
+
 export function Icon({
     name,
     className,
     "aria-hidden": ariaHidden = true,
 }: {
-    name: IconKey;
+    name: string;
     className?: string;
     "aria-hidden"?: boolean;
 }) {
-    const Comp = registry[name];
-    return <Comp className={className} aria-hidden={ariaHidden} focusable="false" />;
+    const Comp = resolveIcon(name) ?? FiBox;
+    return createElement(Comp, {
+        className,
+        "aria-hidden": ariaHidden,
+        focusable: "false",
+    });
 }

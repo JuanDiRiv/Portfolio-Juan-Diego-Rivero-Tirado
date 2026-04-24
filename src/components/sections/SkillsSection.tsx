@@ -8,7 +8,7 @@ import { useLocale } from "@/features/preferences/LocaleProvider";
 import { Icon, type IconKey } from "@/lib/icon";
 import type { Locale, SkillCategory } from "@/lib/types";
 
-const SKILL_ACCENTS: Partial<Record<IconKey, string>> = {
+const SKILL_ACCENTS: Partial<Record<IconKey | string, string>> = {
   html: "#E34F26",
   css: "#1572B6",
   scss: "#CC6699",
@@ -72,33 +72,34 @@ export function SkillsSection({
                 {cat.title}
               </h3>
               <div className="mt-4 flex flex-wrap gap-2">
-                {cat.items.map((item) => (
-                  <span
-                    key={item.label}
-                    className="inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/50 px-3 py-2 text-xs font-medium text-muted-foreground transition-all hover:border-[color:var(--skill-accent,var(--accent))]/50 hover:text-[color:var(--skill-accent,var(--accent))] hover:shadow-[0_0_12px_rgba(var(--neon-cyan-rgb),0.12)]"
-                    style={
-                      item.icon
-                        ? ({
-                          "--skill-accent":
-                            SKILL_ACCENTS[item.icon] ?? "var(--accent)",
-                        } as SkillAccentStyle)
-                        : undefined
-                    }
-                  >
-                    {item.icon ? (
-                      <span
-                        className="flex items-center justify-center rounded-md p-0.5 transition-colors"
-                        style={{
-                          color: `var(--skill-accent, var(--accent))`,
-                          backgroundColor: `color-mix(in srgb, var(--skill-accent, var(--accent)) 12%, transparent)`,
-                        }}
-                      >
-                        <Icon name={item.icon} className="h-4 w-4" />
-                      </span>
-                    ) : null}
-                    {item.label}
-                  </span>
-                ))}
+                {cat.items.map((item) => {
+                  const accent =
+                    item.color ??
+                    (item.icon ? SKILL_ACCENTS[item.icon] : undefined) ??
+                    "var(--accent)";
+                  return (
+                    <span
+                      key={item.label}
+                      className="inline-flex items-center gap-2.5 rounded-xl border border-border/50 bg-background/50 px-3 py-2 text-xs font-medium text-muted-foreground transition-all hover:border-[color:var(--skill-accent,var(--accent))]/50 hover:text-[color:var(--skill-accent,var(--accent))] hover:shadow-[0_0_12px_rgba(var(--neon-cyan-rgb),0.12)]"
+                      style={
+                        { "--skill-accent": accent } as SkillAccentStyle
+                      }
+                    >
+                      {item.icon ? (
+                        <span
+                          className="flex items-center justify-center rounded-md p-0.5 transition-colors"
+                          style={{
+                            color: `var(--skill-accent, var(--accent))`,
+                            backgroundColor: `color-mix(in srgb, var(--skill-accent, var(--accent)) 12%, transparent)`,
+                          }}
+                        >
+                          <Icon name={item.icon} className="h-4 w-4" />
+                        </span>
+                      ) : null}
+                      {item.label}
+                    </span>
+                  );
+                })}
               </div>
             </AnimatedDiv>
           ))}
